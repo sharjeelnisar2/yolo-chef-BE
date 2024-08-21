@@ -30,7 +30,7 @@ paths:
                   message:
                     type: string
                     example: Idea created successfully
-                    
+                   
         '400':
           description: Bad Request
           content:
@@ -43,7 +43,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-    
+   
   /api/v1/users/{username}/user-profile:
     post:
       tags:
@@ -74,7 +74,7 @@ paths:
                   message:
                     type: string
                     example: Idea created successfully
-                    
+                   
         '400':
           description: Bad Request
           content:
@@ -87,7 +87,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+               
   /api/v1/users/{username}:
     get:
       tags:
@@ -115,7 +115,7 @@ paths:
                   user_profile_exists:
                     type: boolean
                     example: true  
-                    
+                   
         '400':
           description: Bad Request
           content:
@@ -128,7 +128,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+               
   /api/v1/ideas/{ideaId}:
     get:
       tags:
@@ -167,7 +167,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  
+ 
   /api/v1/ideas:
     get:
       tags:
@@ -249,7 +249,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                  
+                 
     post:
       tags:
         - ideas
@@ -272,7 +272,7 @@ paths:
                   message:
                     type: string
                     example: Idea submiited successfully
-                    
+                   
         '400':
           description: Bad Request
           content:
@@ -291,7 +291,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  
+ 
   /api/v1/recipes:
     get:
       tags:
@@ -337,7 +337,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  
+ 
   /api/v1/ideas/{ideaId}/recipes:
     get:
       tags:
@@ -376,7 +376,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-                
+               
     post:
       tags:
         - recipes
@@ -425,7 +425,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+               
   /api/v1/recipes/{recipeId}:
     get:
       tags:
@@ -464,7 +464,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+               
     patch:
       tags:
         - recipes
@@ -524,7 +524,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        
+       
   /api/v1/orders:
     post:
       tags:
@@ -537,7 +537,7 @@ paths:
             schema:
               $ref: '#/components/schemas/OrderRequest'
         required: true
-            
+           
       responses:
         '201':
           description: Order created successfully
@@ -567,7 +567,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+               
     get:
       tags:
         - orders
@@ -657,7 +657,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-          
+         
   /api/v1/orders/{orderId}:
     get:
       tags:
@@ -714,7 +714,7 @@ paths:
           schema:
             type: integer
             format: int32
-            
+           
       requestBody:
         content:
           application/json:
@@ -762,7 +762,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          
+         
 components:
   schemas:
     UserRequest:
@@ -831,7 +831,7 @@ components:
     IdeaSummary:
       type: object
       properties:
-      
+     
         id:
           type: integer
           format: int32
@@ -951,14 +951,14 @@ components:
           format: int64
         serving_size:
           type: integer
-        
+       
         images:
           type: array
           items:
             type: string
             format: binary
           description: "Array of image files to upload"
-                      
+                     
       required:
         - title
         - description
@@ -1075,7 +1075,7 @@ components:
                   example: 19999
                 code:
                   type: string
-                  example: "ORD01"
+                  example: "ORD00001"
                 customer_contact_no:
                   type: string
                   example: "+1234567890"
@@ -1118,7 +1118,7 @@ components:
                 - address
                 - order_status_id
                 - items
-                
+               
     OrderResponse:
       type: object
       properties:
@@ -1153,19 +1153,25 @@ components:
             country:
               type: string
         items:
-          type: object
-          properties:
-            recipe_name:
-              type: string
-            quantity:
-              type: integer
-            price:
-              type: integer
-            serving_size:
-              type: integer
-              format: int32
-          
-            
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      recipe_name:
+                        type: string
+                     
+                      quantity:
+                        type: integer
+                       
+                      price:
+                        type: integer
+                       
+                      serving_size:
+                        type: integer
+                        format: int32
+       
+         
+           
     ErrorResponse:
       type: object
       properties:
