@@ -805,7 +805,7 @@ components:
           type: string
         description:
           type: string
-        idea_code:
+        code:
           type: string
         created_at:
           type: string
@@ -857,7 +857,7 @@ components:
           type: string
         description:
           type: string
-        idea_code:
+        code:
           type: string
         interests:
           type: array
@@ -895,7 +895,7 @@ components:
       required:
         - customer_name
         - title
-        - idea_code
+        - code
     Recipes:
       type: object
       properties:
@@ -1040,7 +1040,7 @@ components:
           format: int64
         price:
           type: integer
-        order_code:
+        code:
           type: string
         customer_customer_no:
           type: string
@@ -1073,7 +1073,7 @@ components:
                 price:
                   type: integer
                   example: 19999
-                order_code:
+                code:
                   type: string
                   example: "ORD01"
                 customer_contact_no:
@@ -1108,12 +1108,12 @@ components:
                       price:
                         type: integer
                         example: 9999
-                      recipe_code:
+                      code:
                         type: integer
                         example: 101
       required:
                 - price
-                - order_code
+                - code
                 - customer_mobile_no
                 - address
                 - order_status_id
