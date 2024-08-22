@@ -128,7 +128,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
    
-  /api/v1/users/{username}/user-profile:
+  /api/v1/users/{username}/user-profiles:
     post:
       tags:
         - users
@@ -833,7 +833,7 @@ components:
           type: string
         contact_number:
           type: string
-        house_number:
+        house:
           type: string
         street:
           type: string
@@ -1154,8 +1154,8 @@ components:
                 address:
                   type: object
                   properties:
-                    house_number:
-                      type: integer
+                    house:
+                      type: string
                       example: 123
                     street:
                       type: integer
@@ -1225,8 +1225,8 @@ components:
             address:
               type: object
               properties:
-                house_number:
-                  type: integer
+                house:
+                  type: string
                 street:
                   type: integer
             area:
