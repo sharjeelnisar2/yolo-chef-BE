@@ -29,7 +29,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Idea created successfully
+                    example: User created successfully
                    
         '400':
           description: Bad Request
@@ -65,7 +65,7 @@ paths:
         required: true
       responses:
         '201':
-          description: User created successfully
+          description: User profile created successfully
           content:
             application/json:
               schema:
@@ -73,7 +73,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Idea created successfully
+                    example: User profile created successfully
                    
         '400':
           description: Bad Request
@@ -109,10 +109,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  user_exists:
+                  is_user_created:
                     type: boolean
                     example: true
-                  user_profile_exists:
+                  is_user_profile_completed:
                     type: boolean
                     example: true  
                    
@@ -129,14 +129,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
                
-  /api/v1/ideas/{ideaId}:
+  /api/v1/ideas/{idea_id}:
     get:
       tags:
         - ideas
       summary: Get idea detail by idea ID
       operationId: getIdeaDetailsByIdeaId
       parameters:
-        - name: ideaId
+        - name: idea_id
           in: path
           required: true
           schema:
@@ -217,19 +217,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  currentPage:
+                  current_page:
                     type: integer
                     description: Current page number
                     example: 1
-                  pageSize:
+                  page_size:
                     type: integer
                     description: Number of ideas per page
                     example: 10
-                  totalItems:
+                  total_items:
                     type: integer
                     description: Total number of ideas
                     example: 100
-                  totalPages:
+                  total_pages:
                     type: integer
                     description: Total number of pages
                     example: 10
@@ -271,7 +271,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Idea submiited successfully
+                    example: Idea submitted successfully
                    
         '400':
           description: Bad Request
@@ -338,14 +338,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
  
-  /api/v1/ideas/{ideaId}/recipes:
+  /api/v1/ideas/{idea_id}/recipes:
     get:
       tags:
         - recipes
       summary: Get all recipes by chef for an idea
       operationId: getRecipesForAnIdeaByChef
       parameters:
-        - name: ideaId
+        - name: idea_id
           in: path
           required: true
           schema:
@@ -383,7 +383,7 @@ paths:
       summary: Create a recipe based on a specific idea by the chef
       operationId: createRecipe
       parameters:
-        - name: ideaId
+        - name: idea_id
           in: path
           required: true
           schema:
@@ -426,14 +426,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
                
-  /api/v1/recipes/{recipeId}:
+  /api/v1/recipes/{recipe_id}:
     get:
       tags:
         - recipes
       summary: Get the recipe details by recipe ID for the chef
       operationId: getRecipeDetails
       parameters:
-        - name: recipeId
+        - name: recipe_id
           in: path
           required: true
           schema:
@@ -471,7 +471,7 @@ paths:
       summary: Update recipe status
       operationId: updateRecipeStatus
       parameters:
-        - name: recipeId
+        - name: recipe_id
           in: path
           required: true
           schema:
@@ -590,20 +590,20 @@ paths:
             format: int32
             default: 100
           description: The number of orders per page for pagination.
-        - name: orderStatus
+        - name: order_status
           in: query
           required: false
           schema:
             type: string
           description: Filter orders by status (e.g., pending, completed, cancelled).
-        - name: minPrice
+        - name: min_price
           in: query
           required: false
           schema:
             type: number
             format: double
           description: Filter orders with a minimum price.
-        - name: maxPrice
+        - name: max_price
           in: query
           required: false
           schema:
@@ -624,19 +624,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  currentPage:
+                  current_page:
                     type: integer
                     description: Current page number
                     example: 1
-                  pageSize:
+                  page_size:
                     type: integer
                     description: Number of ideas per page
                     example: 10
-                  totalItems:
+                  total_items:
                     type: integer
                     description: Total number of ideas
                     example: 100
-                  totalPages:
+                  total_pages:
                     type: integer
                     description: Total number of pages
                     example: 10
@@ -658,14 +658,14 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
          
-  /api/v1/orders/{orderId}:
+  /api/v1/orders/{order_id}:
     get:
       tags:
         - orders
       summary: Get order details by order ID for the chef
       operationId: getOrderDetailByOrderId
       parameters:
-        - name: orderId
+        - name: order_id
           in: path
           required: true
           schema:
@@ -708,7 +708,7 @@ paths:
       summary: Update order status by order ID
       operationId: updateOrderStatusByOrderId
       parameters:
-        - name: orderId
+        - name: order_id
           in: path
           required: true
           schema:
@@ -779,11 +779,11 @@ components:
           type: string
         last_name:
           type: string
-        contact_no:
+        contact_number:
           type: string
-        house_no:
+        house_number:
           type: string
-        street_no:
+        street_number:
           type: string
         area:
           type: string
@@ -970,7 +970,7 @@ components:
         id:
           type: integer
           format: int32
-        title:
+        recipe_name:
           type: string
         description:
           type: string
@@ -1000,7 +1000,7 @@ components:
     RecipeDetailSummary:
       type: object
       properties:
-        title:
+        recipe_name:
           type: string
         description:
           type: string
@@ -1042,7 +1042,7 @@ components:
           type: integer
         code:
           type: string
-        customer_customer_no:
+        contact_number:
           type: string
         created_at:
           type: string
@@ -1076,28 +1076,30 @@ components:
                 code:
                   type: string
                   example: "ORD00001"
-                customer_contact_no:
+                contact_number:
                   type: string
                   example: "+1234567890"
                 address:
                   type: object
                   properties:
-                    house_no:
+                    house_number:
                       type: integer
                       example: 123
-                    street_no:
+                    street_number:
                       type: integer
                       example: 456
                     area:
                       type: string
                       example: "Downtown"
+                    zip_code:
+                      type: string
                     city:
                       type: string
                       example: "Metropolis"
                     country:
                       type: string
                       example: "US"
-                items:
+                order_items:
                   type: array
                   items:
                     type: object
@@ -1114,10 +1116,9 @@ components:
       required:
                 - price
                 - code
-                - customer_mobile_no
+                - contact_number
                 - address
-                - order_status_id
-                - items
+                - order_items
                
     OrderResponse:
       type: object
@@ -1137,22 +1138,28 @@ components:
     OrderDetailResponse:
       type: object
       properties:
-        customer_contact_no:
+        customer_name:
+          type: string
+        price:
+          type: integer
+        contact_number:
           type: string
         address:
           type: object
           properties:
-            house_no:
+            house_number:
               type: integer
-            street_no:
+            street_number:
               type: integer
             area:
+              type: string
+            zip_code:
               type: string
             city:
               type: string
             country:
               type: string
-        items:
+        order_items:
                   type: array
                   items:
                     type: object
