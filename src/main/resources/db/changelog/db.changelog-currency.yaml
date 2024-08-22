@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-0.0.32
+      author: vendor_team
+      changes:
+        - createTable:
+            tableName: currency
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type:  varchar(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: symbol
+                  type: varchar(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: false
