@@ -845,6 +845,8 @@ components:
           type: string
         country:
           type: string
+        currency_code:
+          type: string
     Ideas:
       type: object
       properties:
