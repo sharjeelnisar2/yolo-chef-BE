@@ -128,35 +128,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-               
-  /api/v1/ideas/{idea_id}:
-    get:
+  
+  /api/v1/ideas:
+    
+    post:
       tags:
         - ideas
-      summary: Get idea detail by idea ID
-      operationId: getIdeaDetailsByIdeaId
-      parameters:
-        - name: idea_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      summary: Create an idea by customer
+      operationId: createIdea
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdeaRequest'
+        required: true
       responses:
-        '200':
-          description: Idea details retrieved successfully
+        '201':
+          description: Idea created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdeaResponse'
-        '403':
-          description: Unauthorized access
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Idea submitted successfully
+                   
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Idea not found
+        '403':
+          description: Unauthorized access
           content:
             application/json:
               schema:
@@ -167,8 +172,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
- 
-  /api/v1/ideas:
     get:
       tags:
         - ideas
@@ -249,38 +252,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                 
-    post:
+            
+               
+  /api/v1/ideas/{idea_id}:
+    get:
       tags:
         - ideas
-      summary: Create an idea by customer
-      operationId: createIdea
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/IdeaRequest'
-        required: true
+      summary: Get idea detail by idea ID
+      operationId: getIdeaDetailsByIdeaId
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
-        '201':
-          description: Idea created successfully
+        '200':
+          description: Idea details retrieved successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Idea submitted successfully
-                   
-        '400':
-          description: Bad Request
+                $ref: '#/components/schemas/IdeaResponse'
+        '403':
+          description: Unauthorized access
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '403':
-          description: Unauthorized access
+        '404':
+          description: Idea not found
           content:
             application/json:
               schema:
@@ -1070,6 +1071,9 @@ components:
     OrderRequest:
       type: object
       properties:
+        order:
+          type: object
+          properties:
                 price:
                   type: integer
                   example: 19999
@@ -1138,19 +1142,22 @@ components:
     OrderDetailResponse:
       type: object
       properties:
-        customer_name:
-          type: string
-        price:
-          type: integer
-        contact_number:
-          type: string
-        address:
+        order:
           type: object
           properties:
-            house_number:
+            customer_name:
+              type: string
+            price:
               type: integer
-            street_number:
-              type: integer
+            contact_number:
+              type: string
+            address:
+              type: object
+              properties:
+                house_number:
+                  type: integer
+                street_number:
+                  type: integer
             area:
               type: string
             zip_code:
