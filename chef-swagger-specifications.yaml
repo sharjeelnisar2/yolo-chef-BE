@@ -784,7 +784,7 @@ components:
           type: string
         house_number:
           type: string
-        street_number:
+        street:
           type: string
         area:
           type: string
@@ -794,6 +794,9 @@ components:
           type: string
         country:
           type: string
+        currency_id:
+          type: integer
+          format: int32
     Ideas:
       type: object
       properties:
@@ -852,22 +855,25 @@ components:
     IdeaRequest:
       type: object
       properties:
-        customer_name:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        code:
-          type: string
-        interests:
-          type: array
-          items:
-            type: string
-        dietry_restrictions:
-          type: array
-          items:
-            type: string
+        idea:
+          type: object
+          properties:
+            customer_name:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            idea_code:
+              type: string
+            interests:
+              type: array
+              items:
+                type: string
+            dietry_restrictions:
+              type: array
+              items:
+                type: string
       required:
         - customer_name
         - title
@@ -875,24 +881,31 @@ components:
     IdeaResponse:
       type: object
       properties:
-        customer_name:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        created_at:
-          type: string
-          format: DATETIME
+        idea:
+          type: object
+          properties:
+            customer_name:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            created_at:
+              type: string
+              format: DATETIME
+          
+            recipe_count:
+              type: integer
+              format: int32
 
-        interests:
-          type: array
-          items:
-            type: string
-        dietry_restrictions:
-          type: array
-          items:
-            type: string
+            interests:
+              type: array
+              items:
+                type: string
+            dietry_restrictions:
+              type: array
+              items:
+                type: string
       required:
         - customer_name
         - title
@@ -1001,27 +1014,30 @@ components:
     RecipeDetailSummary:
       type: object
       properties:
-        recipe_name:
-          type: string
-        description:
-          type: string
-        serving_size:
-          type: integer
-        price:
-          type: integer
-          format: int64
-        idea_title:
-          type: string
-        status:
-          type: string
-        created_at:
-          type: string
-          format: DATETIME
-        images:
-          type: array
-          items:
-              type: object
-              properties:
+        recipe:
+          type: object
+          properties:
+            recipe_name:
+              type: string
+            description:
+              type: string
+            serving_size:
+              type: integer
+            price:
+              type: integer
+              format: int64
+            idea_title:
+              type: string
+            status:
+              type: string
+            created_at:
+              type: string
+              format: DATETIME
+            images:
+              type: array
+              items:
+                type: object
+                properties:
                   url:
                     type: string
                     example: "https://example.com/images/spaghetti-carbonara.jpg"
@@ -1043,7 +1059,7 @@ components:
           type: integer
         code:
           type: string
-        contact_number:
+        customer_contact_number:
           type: string
         created_at:
           type: string
@@ -1074,13 +1090,13 @@ components:
         order:
           type: object
           properties:
-                price:
+                total_price:
                   type: integer
                   example: 19999
-                code:
+                order_code:
                   type: string
                   example: "ORD00001"
-                contact_number:
+                customer_contact_number:
                   type: string
                   example: "+1234567890"
                 address:
@@ -1089,7 +1105,7 @@ components:
                     house_number:
                       type: integer
                       example: 123
-                    street_number:
+                    street:
                       type: integer
                       example: 456
                     area:
@@ -1114,13 +1130,12 @@ components:
                       price:
                         type: integer
                         example: 9999
-                      code:
-                        type: integer
-                        example: 101
+                      recipe_code:
+                        type: string
       required:
                 - price
                 - code
-                - contact_number
+                - customer_contact_number
                 - address
                 - order_items
                
@@ -1132,7 +1147,7 @@ components:
           format: int32
         customer_name:
           type: string
-        price:
+        total_price:
           type: integer
         created_at:
           type: string
@@ -1147,16 +1162,16 @@ components:
           properties:
             customer_name:
               type: string
-            price:
+            total_price:
               type: integer
-            contact_number:
+            customer_contact_number:
               type: string
             address:
               type: object
               properties:
                 house_number:
                   type: integer
-                street_number:
+                street:
                   type: integer
             area:
               type: string
