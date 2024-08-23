@@ -34,14 +34,18 @@ Before you begin, ensure you have met the following requirements:
     CREATE DATABASE yolo_chef;
     ```
 
-2. **Update the `application.properties` file** with your MySQL credentials:
+2. **Create a `.env` file** at the root of the project with the following content:
 
-    ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/yolo_chef
-    spring.datasource.username=your_mysql_username
-    spring.datasource.password=your_mysql_password
-    spring.jpa.hibernate.ddl-auto=update
+    ```bash
+        dbUrl=your_db_url
+        username=your_mysql_username
+        password=your_mysql_password
+        ApiKey=your_api_key
+        GeminiUrl=your_gemini_url
+
     ```
+
+3. **Fill in your MySQL credentials** in the `.env` file.
 
 ### Installing Dependencies
 
