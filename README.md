@@ -53,3 +53,4 @@ Run the following command to install the project's dependencies:
 
 ```bash
 mvn clean install
+This will start the application on http://localhost:9090.
