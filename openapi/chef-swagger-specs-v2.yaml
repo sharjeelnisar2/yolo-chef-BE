@@ -633,18 +633,12 @@ paths:
         - recipes
       summary: Generate content for recipe
       operationId: generateContentForRecipe
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                status:
-                  type: string
-                  description: The new status for the order.
-              required:
-                - status
-        required: true
+      parameters:
+        - name: text
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '201':
           description: Content for a recipe generated successfully
