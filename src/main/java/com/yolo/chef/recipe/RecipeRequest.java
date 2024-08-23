@@ -1,4 +1,4 @@
-package com.yolo.chef.recipeRequest;
+package com.yolo.chef.recipe;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

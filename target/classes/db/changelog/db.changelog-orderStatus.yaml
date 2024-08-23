@@ -1,0 +1,107 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-0.0.7
+      author: vendor_team
+      changes:
+        - createTable:
+            tableName: order_status
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: ENUM('PENDING', 'INPROCESS', 'DISPATCHED')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: ENUM('Pending', 'Inprocess', 'Dispatched')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: schema-0.0.8.9
+      author: vendor_team
+      changes:
+        - insert:
+            tableName: order_status
+            columns:
+              - column:
+                  name: code
+                  value: INPROCESS
+              - column:
+                  name: value
+                  value: Inprocess
+              - column:
+                  name: is_active
+                  value: 1
+              - column:
+                  name: created_at
+                  value: '2000-01-01T12:00:00'
+              - column:
+                  name: updated_at
+                  value: '2000-01-01T12:00:00'
+  - changeSet:
+      id: schema-0.0.8.1
+      author: vendor_team
+      changes:
+        - insert:
+            tableName: order_status
+            columns:
+              - column:
+                  name: code
+                  value: PENDING
+              - column:
+                  name: value
+                  value: Pending
+              - column:
+                  name: is_active
+                  value: 1
+              - column:
+                  name: created_at
+                  value: '2000-01-01T12:00:00'
+              - column:
+                  name: updated_at
+                  value: '2000-01-01T12:00:00'
+  - changeSet:
+      id: schema-0.0.8.211
+      author: vendor_team
+      changes:
+        - insert:
+            tableName: order_status
+            columns:
+              - column:
+                  name: code
+                  value: DISPATCHED
+              - column:
+                  name: value
+                  value: Dispatched
+              - column:
+                  name: is_active
+                  value: 1
+              - column:
+                  name: created_at
+                  value: '2000-01-01T12:00:00'
+              - column:
+                  name: updated_at
+                  value: '2000-01-01T12:00:00'
+

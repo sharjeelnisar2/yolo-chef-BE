@@ -3,7 +3,6 @@ package com.yolo.chef.recipe;
 import com.yolo.chef.exception.BadRequestException;
 import com.yolo.chef.recipeImage.RecipeImage;
 import com.yolo.chef.recipeImage.RecipeImageRepository;
-import com.yolo.chef.recipeRequest.RecipeRequest;
 import com.yolo.chef.recipeStatus.RecipeStatus;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +41,6 @@ public class RecipeService {
         Recipe recipe=new Recipe();
         recipe.setTitle(recipeRequest.getTitle());
         recipe.setDescription(recipeRequest.getDescription());
-        recipe.setPrice(recipeRequest.getPrice()*100);
         recipe.setServing_size(recipeRequest.getServing_size());
         recipe.setCreated_at(LocalDateTime.now());
         recipe.setUpdated_at(LocalDateTime.now());

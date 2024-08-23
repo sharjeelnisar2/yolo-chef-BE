@@ -2,7 +2,6 @@ package com.yolo.chef.recipe;
 
 import com.yolo.chef.exception.BadRequestException;
 import com.yolo.chef.exception.UnauthorizedException;
-import com.yolo.chef.recipeRequest.RecipeRequest;
 import com.yolo.chef.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
