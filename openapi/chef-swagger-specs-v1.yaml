@@ -6,6 +6,87 @@ info:
 servers:
   - url: /
 paths:
+  /api/v1/users:
+    post:
+      tags:
+        - users
+      summary: Create a user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User created successfully
+                   
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
+  /api/v1/users/{username}/user-profiles:
+    post:
+      tags:
+        - users
+      summary: Create user profile
+      operationId: createUserProfile
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileRequest'
+        required: true
+      responses:
+        '201':
+          description: User profile created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User profile created successfully
+                   
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
   /api/v1/access-token:
     get:
       tags:
@@ -91,86 +172,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'              
-  /api/v1/users:
-    post:
-      tags:
-        - users
-      summary: Create a user
-      operationId: createUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRequest'
-        required: true
-      responses:
-        '201':
-          description: User created successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: User created successfully
-                   
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+  
    
-  /api/v1/users/{username}/user-profiles:
-    post:
-      tags:
-        - users
-      summary: Create user profile
-      operationId: createUserProfile
-      parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserProfileRequest'
-        required: true
-      responses:
-        '201':
-          description: User profile created successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: User profile created successfully
-                   
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+  
                 
                
   
@@ -339,45 +343,83 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
  
-  /api/v1/recipes:
-    get:
+  # /api/v1/recipes:
+  #   get:
+  #     tags:
+  #       - recipes
+  #     summary: Get all recipes by chef ID
+  #     operationId: getRecipesByChefId
+  #     parameters:
+  #       - name: page
+  #         in: query
+  #         required: false
+  #         schema:
+  #           type: integer
+  #           format: int32
+  #           default: 0
+  #       - name: size
+  #         in: query
+  #         required: false
+  #         schema:
+  #           type: integer
+  #           format: int32
+  #           default: 1000
+  #     responses:
+  #       '200':
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 recipes:
+  #                   type: array
+  #                   items:
+  #                     $ref: '#/components/schemas/RecipeSummary'
+  #       '403':
+  #         description: Unauthorized access
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/ErrorResponse'
+  #       '500':
+  #         description: Internal server error
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/ErrorResponse'
+  
+  /api/v1/content:
+    post:
       tags:
         - recipes
-      summary: Get all recipes by chef ID
-      operationId: getRecipesByChefId
+      summary: Generate content for recipe
+      operationId: generateContentForRecipe
       parameters:
-        - name: page
+        - name: text
           in: query
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: size
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 1000
+            type: string
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Content for a recipe generated successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  recipes:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/RecipeSummary'
-        '403':
-          description: Unauthorized access
+                      content:
+                        type: string
+                  
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+                
+          
         '500':
           description: Internal server error
           content:
@@ -386,44 +428,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
  
   /api/v1/ideas/{idea_id}/recipes:
-    get:
-      tags:
-        - recipes
-      summary: Get all recipes by chef for an idea
-      operationId: getRecipesForAnIdeaByChef
-      parameters:
-        - name: idea_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  recipes:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/RecipeSummary'
-        '403':
-          description: Unauthorized access
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
-               
     post:
       tags:
         - recipes
@@ -472,6 +476,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+        - recipes
+      summary: Get all recipes by chef for an idea
+      operationId: getRecipesForAnIdeaByChef
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recipes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecipeSummary'
+        '403':
+          description: Unauthorized access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+               
+    
                
   /api/v1/recipes/{recipe_id}:
     get:
