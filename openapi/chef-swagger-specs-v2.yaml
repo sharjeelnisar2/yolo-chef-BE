@@ -627,6 +627,86 @@ paths:
                       details:
                         type: string
                         
+  /api/v1/content:
+    post:
+      tags:
+        - recipes
+      summary: Generate content for recipe
+      operationId: generateContentForRecipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: The new status for the order.
+              required:
+                - status
+        required: true
+      responses:
+        '201':
+          description: Content for a recipe generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                  error:
+                    type: object
+                    nullable: true
+                   
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  data:
+                    type: object
+                    nullable: true
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      details:
+                        type: string
+                
+          
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  data:
+                    type: object
+                    nullable: true
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      details:
+                        type: string
+                        
   /api/v1/ideas/{idea_id}/recipes:
     post:
       tags:
