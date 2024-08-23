@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: name
-                  type:  varchar(16)
+                  type:  varchar(20)
                   constraints:
                     nullable: false
               - column:
@@ -38,3 +38,25 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
+  - changeSet:
+      id: schema-0.0.8.1.2
+      author: vendor_team
+      changes:
+        - insert:
+            tableName: currency
+            columns:
+              - column:
+                  name: code
+                  value: USD
+              - column:
+                  name: name
+                  value: United state Dollar
+              - column:
+                  name: symbol
+                  value: $
+              - column:
+                  name: created_at
+                  value: '2000-01-01T12:00:00'
+              - column:
+                  name: updated_at
+                  value: '2000-01-01T12:00:00'
