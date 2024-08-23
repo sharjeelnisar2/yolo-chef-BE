@@ -43,7 +43,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
                 
-  /api/v1/users/{username}/user-profiles:
+  /api/v1/users/{username}/userProfiles:
     post:
       tags:
         - users
@@ -87,7 +87,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
                 
-  /api/v1/access-token:
+  /api/v1/jwtToken:
     get:
       tags:
         - users
