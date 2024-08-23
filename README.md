@@ -45,7 +45,7 @@ Before you begin, ensure you have met the following requirements:
 
     ```
 
-3. **Fill in your MySQL credentials** in the `.env` file.
+3. **Fill your credentials** in the `.env` file.
 
 ### Installing Dependencies
 
