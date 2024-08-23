@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: content
+                  name: description
                   type: varchar(32)
                   constraints:
                     nullable: true

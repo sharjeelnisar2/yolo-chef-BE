@@ -45,15 +45,15 @@ public class RecipeService {
         BigInteger price = recipeRequest.getPrice(); // Assuming this returns a BigInteger
         int multiplier = 100;
         BigInteger multipliedPrice = price.multiply(BigInteger.valueOf(multiplier));
-        recipe.setServing_size(recipeRequest.getServing_size());
-        recipe.setCreated_at(LocalDateTime.now());
-        recipe.setUpdated_at(LocalDateTime.now());
+        recipe.setServingSize(recipeRequest.getServing_size());
+        recipe.setCreatedAt(LocalDateTime.now());
+        recipe.setUpdatedAt(LocalDateTime.now());
         //SecurityContextHolder.getContext().getAuthentication().getName();
-        recipe.setUser_id(1);
-        recipe.setIdea_id(ideaId);
+        recipe.setUserId(1);
+        recipe.setIdeaId(ideaId);
         String uniquecode="RCP"+generateUniqueCode();
         recipe.setCode(uniquecode);
-        recipe.setRecipe_status_id(1);
+        recipe.setRecipeStatusId(1);
         recipeRepository.save(recipe);
 
         for(int i=0;i<recipeRequest.getImages().length;i++)
@@ -61,9 +61,9 @@ public class RecipeService {
             RecipeImage recipeImage=new RecipeImage();
             recipeImage.setUrl(recipeRequest.getImages()[i]);
             System.out.println(recipeRequest.getImages()[i]);
-            recipeImage.setCreated_at(LocalDateTime.now());
-            recipeImage.setUpdated_at(LocalDateTime.now());
-            recipeImage.setRecipe_id(recipe.getId());
+            recipeImage.setCreatedAt(LocalDateTime.now());
+            recipeImage.setUpdatedAt(LocalDateTime.now());
+            recipeImage.setRecipeId(recipe.getId());
             recipeImageRepository.save(recipeImage)  ;
         }
         return recipe;

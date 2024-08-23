@@ -17,12 +17,19 @@ public class Recipe {
     private String title;
     private String description;
     private BigInteger price;
+    @Column(name = "serving_size")
     private Integer servingSize;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
     private String code;
-    private Integer user_id;
-    private Integer idea_id;
-    private Integer recipe_status_id;
-    private Integer currency_id;
+    @Column(name = "user_id")
+    private Integer userId;
+    @Column(name = "idea_id")
+    private Integer ideaId;
+    @Column(name = "recipe_status_id")
+    private Integer recipeStatusId;
+    @Column(name = "currency_id")
+    private Integer currencyId;
 }

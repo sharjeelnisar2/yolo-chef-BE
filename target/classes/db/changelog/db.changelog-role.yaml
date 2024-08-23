@@ -19,6 +19,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
                   name: is_active
                   type: BOOLEAN
                   constraints:
@@ -46,6 +51,9 @@ databaseChangeLog:
               - column:
                   name: name
                   value: chef
+              - column:
+                  name: description
+                  value: its a chef role
               - column:
                   name: is_active
                   value: 1
