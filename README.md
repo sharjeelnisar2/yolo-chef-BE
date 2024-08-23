@@ -8,7 +8,7 @@ Welcome to the Yolo-Chef Backend project! This is a Java Spring Boot application
 
 Before you begin, ensure you have met the following requirements:
 
-- **Java **: Make sure you have JDK 21 installed. You can download it from [here](https://www.oracle.com/pk/java/technologies/downloads/#java21).
+- **Java**: Make sure you have JDK 21 installed. You can download it from [here](https://www.oracle.com/pk/java/technologies/downloads/#java21).
 - **MySQL**: Install MySQL and set up a database. You can download MySQL from [here](https://dev.mysql.com/downloads/workbench/).
 - **Git**: Ensure you have Git installed to clone the repository. Download it from [Git's official site](https://git-scm.com/downloads/).
 
