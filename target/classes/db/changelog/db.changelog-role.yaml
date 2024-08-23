@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.6
+      id: schema-role-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
@@ -14,8 +14,8 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: role_name
-                  type: varchar(10)
+                  name: name
+                  type: varchar(16)
                   constraints:
                     nullable: false
               - column:
@@ -34,7 +34,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
   - changeSet:
-      id: schema-0.0.8.1
+      id: schema-role-data-0.0.1
       author: vendor_team
       changes:
         - insert:
@@ -44,7 +44,7 @@ databaseChangeLog:
                   name: id
                   value: 1
               - column:
-                  name: role_name
+                  name: name
                   value: chef
               - column:
                   name: is_active

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.9
+      id: schema-idea-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
@@ -15,7 +15,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: customer_name
-                  type: varchar(45)
+                  type: varchar(32)
                   constraints:
                     nullable: false
               - column:
@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: description
-                  type: varchar(128)
+                  type: Text
                   constraints:
                     nullable: false
               - column:
@@ -43,7 +43,7 @@ databaseChangeLog:
             columnNames: code
             constraintName: idea_reference_UNIQUE
   - changeSet:
-      id: schema-0.0.8.1.2
+      id: schema-dietary_restriction-data-0.0.1
       author: vendor_team
       changes:
         - insert:
@@ -63,7 +63,7 @@ databaseChangeLog:
                   value: ChineseRiceIdea Description
               - column:
                   name: code
-                  value: 123
+                  value: IDE12345
               - column:
                   name: created_at
                   value: '2000-01-01T12:00:00'

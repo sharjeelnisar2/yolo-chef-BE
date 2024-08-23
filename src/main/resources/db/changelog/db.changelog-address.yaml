@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.3
+      id: schema-address-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
@@ -15,7 +15,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: house
-                  type: varchar(4)
+                  type: varchar(16)
                   constraints:
                     nullable: false
               - column:

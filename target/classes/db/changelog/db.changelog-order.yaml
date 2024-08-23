@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.12
+      id: schema-order-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: customer_contact_number
-                  type: varchar(11)
+                  type: varchar(13)
                   constraints:
                     nullable: false
               - column:

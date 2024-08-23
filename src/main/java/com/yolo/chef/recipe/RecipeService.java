@@ -6,6 +6,7 @@ import com.yolo.chef.recipeImage.RecipeImageRepository;
 import com.yolo.chef.recipeStatus.RecipeStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -32,7 +33,7 @@ public class RecipeService {
     }
     public Recipe createRecipe(RecipeRequest recipeRequest,Integer ideaId)
     {
-        if (recipeRequest.getPrice() <= 0) {
+        if (recipeRequest.getPrice().compareTo(BigInteger.ZERO) <= 0) {
             throw new BadRequestException(
                     "Invalid price provided.",
                     "The price must be greater than zero. Provided value: " + recipeRequest.getPrice()
@@ -41,6 +42,9 @@ public class RecipeService {
         Recipe recipe=new Recipe();
         recipe.setTitle(recipeRequest.getTitle());
         recipe.setDescription(recipeRequest.getDescription());
+        BigInteger price = recipeRequest.getPrice(); // Assuming this returns a BigInteger
+        int multiplier = 100;
+        BigInteger multipliedPrice = price.multiply(BigInteger.valueOf(multiplier));
         recipe.setServing_size(recipeRequest.getServing_size());
         recipe.setCreated_at(LocalDateTime.now());
         recipe.setUpdated_at(LocalDateTime.now());

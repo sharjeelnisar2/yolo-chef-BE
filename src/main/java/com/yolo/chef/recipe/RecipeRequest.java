@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class RecipeRequest {
     private String title;
     private String description;
-    private Long price;
+    private BigInteger price;
     private Integer serving_size;
     private String[]  images;
 }

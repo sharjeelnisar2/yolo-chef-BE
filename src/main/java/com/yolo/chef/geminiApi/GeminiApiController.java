@@ -1,5 +1,5 @@
 package com.yolo.chef.geminiApi;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +12,7 @@ public class GeminiApiController {
         this.geminiService = geminiService;
     }
 
-    @GetMapping("/generateContent")
+    @PostMapping("/generateContent")
     public String generateContent(@RequestParam String text) {
         String requestPayload = String.format("{\"contents\":[{\"parts\":[{\"text\":\"%s\"}]}]}", text);
         return geminiService.generateContent(requestPayload);

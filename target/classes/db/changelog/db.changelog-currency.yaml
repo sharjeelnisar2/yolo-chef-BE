@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.32
+      id: schema-currency-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
@@ -20,12 +20,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: name
-                  type:  varchar(20)
+                  type:  varchar(32)
                   constraints:
                     nullable: false
               - column:
                   name: symbol
-                  type: varchar(1)
+                  type: varchar(3)
                   constraints:
                     nullable: false
               - column:
@@ -39,7 +39,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
   - changeSet:
-      id: schema-0.0.8.1.2
+      id: schema-currency-data-0.0.1
       author: vendor_team
       changes:
         - insert:

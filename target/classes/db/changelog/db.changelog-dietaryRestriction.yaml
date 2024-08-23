@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.5
+      id:  schema-dietary_restriction-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
@@ -14,8 +14,8 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: text
-                  type: varchar(16)
+                  name: content
+                  type: varchar(32)
                   constraints:
                     nullable: true
               - column:

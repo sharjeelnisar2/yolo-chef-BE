@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.10
+      id: schema-recipe_image-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
