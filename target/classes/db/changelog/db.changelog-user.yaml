@@ -61,10 +61,10 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: username
-                  value: EshaChef
+                  value: DaudChef
               - column:
                   name: email
-                  value: esha@gmail.com
+                  value: daud@gmail.com
               - column:
                   name: role_id
                   value: 1

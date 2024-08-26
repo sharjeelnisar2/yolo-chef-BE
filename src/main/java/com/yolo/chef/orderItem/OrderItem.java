@@ -1,6 +1,9 @@
 package com.yolo.chef.orderItem;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,11 +19,8 @@ public class OrderItem {
     private Integer id;
     private Long quantity;
     private Long price;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "recipe_id")
-    private Integer recipeId;
-    @Column(name = "order_id")
-    private Integer orderId;
+    private LocalDateTime created_at;
+    private Integer recipe_id;
+    private Integer order_id;
 }
 
