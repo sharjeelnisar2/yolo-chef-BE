@@ -14,7 +14,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String title;
+    private String name;
     private String description;
     private BigInteger price;
     @Column(name = "serving_size")
