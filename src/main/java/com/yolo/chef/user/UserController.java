@@ -1,29 +1,36 @@
 package com.yolo.chef.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
 
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping("/jwtToken")
-    @CrossOrigin(origins = "http://localhost:3002")
-    public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String token, Authentication authentication) {
-        Jwt jwt = (Jwt) authentication.getPrincipal();
+    public UserInfoResponse getUserInfo(@RequestHeader("Authorization") String token, Authentication authentication) {
+        return userService.getUserInfo(authentication);
+    }
 
-        String username = jwt.getClaim("preferred_username");
-        String email = jwt.getClaim("email");
-        Map<String, Object> roles = jwt.getClaim("resource_access");
-
-        System.out.println(username);
-        return Map.of(
-                "username", username,
-                "email", email,
-                "roles", roles
-        );
+    @GetMapping("/users/{username}")
+    public ResponseEntity<CheckUserResponse> checkUser(@PathVariable String username) {
+        CheckUserResponse response = userService.checkUser(username);
+        if (!response.isUserCreated()) {
+            // Create the user if it does not exist
+//            userService.createUser(username);
+            System.out.println("User profile doesnot exist");
+            // Update response after user creation
+            response = userService.checkUser(username);
+        }
+        return ResponseEntity.ok(response);
     }
 }
