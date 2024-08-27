@@ -1,6 +1,9 @@
 package com.yolo.chef.order;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,15 +19,9 @@ public class Order {
     private Integer id;
     private Long price;
     private String code;
-
-    @Column(name = "customer_contact_number")
-    private String customerContactNumber;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    @Column(name = "order_status_id")
-    private Integer orderStatusId;
-    @Column(name = "address_id")
-    private Integer addressId;
+    private String customer_contact_number;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
+    private Integer order_status_id;
+    private Integer address_id;
 }

@@ -64,5 +64,3 @@ databaseChangeLog:
             referencedTableName: order_status
             referencedColumnNames: id
             constraintName: order_status_id_fk
-
-
