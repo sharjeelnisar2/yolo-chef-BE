@@ -26,6 +26,12 @@ public class ApiExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("403", ex.getMessage(), ex.getDetails());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
+
+        ErrorResponse errorResponse = new ErrorResponse("404", ex.getMessage(), ex.getDetails());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
 
 
 }
