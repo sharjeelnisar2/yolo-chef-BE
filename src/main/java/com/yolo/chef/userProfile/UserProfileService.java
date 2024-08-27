@@ -3,6 +3,7 @@ package com.yolo.chef.userProfile;
 import com.yolo.chef.address.Address;
 import com.yolo.chef.address.AddressRepository;
 import com.yolo.chef.dto.CreateUserProfileRequest;
+import com.yolo.chef.exception.NotFoundException;
 import com.yolo.chef.user.User;
 import com.yolo.chef.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,7 @@ public class UserProfileService {
                 response.put("message", "User profile created successfully");
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
             }
-         }catch(Exception e){
+         }catch(NotFoundException e){
              response.put("message", "User not found");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);

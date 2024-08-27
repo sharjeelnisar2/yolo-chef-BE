@@ -1,6 +1,7 @@
 package com.yolo.chef.userProfile;
 
 import com.yolo.chef.dto.CreateUserProfileRequest;
+import com.yolo.chef.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,14 +25,20 @@ public class UserProfileController {
     public ResponseEntity<Map<String, String>> createUserProfile(@PathVariable String username, @RequestBody CreateUserProfileRequest userProfileRq) {
         try {
             return userProfileService.createUserProfile(username,userProfileRq);
-        } catch (IllegalArgumentException e) {
-            // Handle bad request
+        }  catch (NotFoundException e) {
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Username not exsist");
+            response.put("details", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }catch (IllegalArgumentException e) {
+
             Map<String, String> response = new HashMap<>();
             response.put("message", "Bad Request");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
-            // Handle internal server error
+
             Map<String, String> response = new HashMap<>();
             response.put("message", "Internal server error");
             response.put("details", e.getMessage());
