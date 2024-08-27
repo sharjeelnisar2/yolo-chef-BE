@@ -8,24 +8,19 @@ spring:
   application:
     name: chef
   datasource:
-    url: ${dbUrl}
-    username: ${username}
-    password: ${password}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: false
+    show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
 
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
-api:
-  key:
-    ${ApiKey}
-  GeminiUrl:
-    ${GeminiUrl}
 server:
   port: 8081

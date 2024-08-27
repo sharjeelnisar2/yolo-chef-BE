@@ -16,14 +16,14 @@ public class ApiExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
 
-        ErrorResponse errorResponse = new ErrorResponse("400", ex.getMessage(), ex.getDetails());
+        ErrorResponse errorResponse = new ErrorResponse( ex.getMessage(), ex.getDetails());
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex) {
 
-        ErrorResponse errorResponse = new ErrorResponse("403", ex.getMessage(), ex.getDetails());
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getDetails());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
 
