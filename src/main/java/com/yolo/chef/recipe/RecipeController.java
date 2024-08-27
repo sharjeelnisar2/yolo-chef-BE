@@ -19,7 +19,7 @@ public class RecipeController {
     public ResponseEntity<RecipeListResponse> getRecipesByIdeaId(
             @PathVariable("idea_id") Integer ideaId,
             @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "sortOrder", required = false, defaultValue = "desc") String sortOrder) {
+            @RequestParam(value = "sort_order", required = false, defaultValue = "desc") String sortOrder) {
 
         RecipeListResponse recipeListResponse = recipeService.getAllRecipesByChef(ideaId, status, sortOrder);
         return ResponseEntity.ok(recipeListResponse);
@@ -27,8 +27,16 @@ public class RecipeController {
 
 
     @GetMapping("/recipes/{recipe_id}")
-    public ResponseEntity<RecipeDetailsResponseWrapper> getRecipeDetailsByRecipeId(@RequestParam Integer recipeId) {
+    public ResponseEntity<RecipeDetailsResponseWrapper> getRecipeDetailsByRecipeId(@PathVariable("recipe_id") Integer recipeId) {
         RecipeDetailsResponseWrapper recipeDetails = recipeService.getRecipeDetailsByRecipeId(recipeId);
         return ResponseEntity.ok(recipeDetails);
     }
+
+//    @PatchMapping("/recipes/{recipe_id}")
+//    public ResponseEntity<String> updateRecipeStatus(@PathVariable("recipe_id") Integer recipeId) {
+//
+//        RecipeListResponse recipeListResponse = recipeService.getAllRecipesByChef(ideaId, status, sortOrder);
+//        return ResponseEntity.ok(recipeListResponse);
+//    }
+
 }

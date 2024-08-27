@@ -5,6 +5,7 @@ import com.yolo.chef.dto.LoginRequest;
 import com.yolo.chef.exception.EmailAlreadyExistsException;
 import com.yolo.chef.exception.UsernameAlreadyExistsException;
 import com.yolo.chef.util.ApiMessages;
+import com.yolo.chef.util.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,10 @@ import org.springframework.http.HttpStatus;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ValidationUtil validationUtil;
 
     public ResponseEntity<Map<String, String>> createUser(LoginRequest loginRequest) {
-        if (userRepository.existsByUsername(loginRequest.username())) {
-            throw new UsernameAlreadyExistsException(ApiMessages.USERNAME_ALREADY_EXISTS_ERROR.getMessage(), "User with username : " + loginRequest.username() + " already exists");
-        }
-
-        if (userRepository.existsByEmail(loginRequest.email())) {
-            throw new EmailAlreadyExistsException(ApiMessages.USER_EMAIL_ALREADY_EXISTS_ERROR.getMessage(), "User with email : " + loginRequest.email() + " already exists");
-        }
-
+        validationUtil.validateNewUser(loginRequest);
         User user = new User();
         user.setUsername(loginRequest.username());
         user.setEmail(loginRequest.email());
