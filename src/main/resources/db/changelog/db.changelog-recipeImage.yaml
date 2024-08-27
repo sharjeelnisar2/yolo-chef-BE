@@ -39,4 +39,3 @@ databaseChangeLog:
             referencedTableName: recipe
             referencedColumnNames: id
             constraintName: recipe_id_Fk
-

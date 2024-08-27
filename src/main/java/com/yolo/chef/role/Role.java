@@ -1,6 +1,9 @@
 package com.yolo.chef.role;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,13 +15,9 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "role_name")
-    private String roleName;
-    @Column(name = "is_active")
-    private Boolean isActive;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private String role_name;
+    private Boolean is_active;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 
 }
