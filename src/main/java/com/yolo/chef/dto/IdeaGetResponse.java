@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class IdeaGetRequest {
+public class IdeaGetResponse {
 
     private int currentPage;
     private int pageSize;
