@@ -1,6 +1,9 @@
 package com.yolo.chef.recipeImage;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +17,7 @@ public class RecipeImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String url;
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    @Column(name = "recipe_id")
     private Integer recipeId;
 }
