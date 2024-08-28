@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
     @Autowired
@@ -45,9 +45,23 @@ public class OrderController {
             @RequestParam(required = false) String search) {
 
         try {
-            Page<?> orders = orderService.getOrdersByChefId(userId, page, size, orderStatus, minPrice, maxPrice, search);
+            Map<String, Object> orders = orderService.getOrdersByChefId(userId, page, size, orderStatus, minPrice, maxPrice, search);
             return ResponseEntity.ok(orders);
         } catch (UnauthorizedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage(), "Unauthorized access"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage(), "Internal server error"));
+        }
+    }
+
+    @GetMapping("/detail/{order_id}")
+    public ResponseEntity<?> getOrderDetails(@PathVariable Integer order_id)
+    {
+        try
+        {
+            return ResponseEntity.ok(orderService.getOrderDetails(order_id));
+        }
+        catch (UnauthorizedException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage(), "Unauthorized access"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage(), "Internal server error"));

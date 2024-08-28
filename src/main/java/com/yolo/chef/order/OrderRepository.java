@@ -1,34 +1,45 @@
 package com.yolo.chef.order;
 
-import com.yolo.chef.order.dto.OrderResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface OrderRepository extends JpaRepository<Order, Integer> {
+    @Query(value = "SELECT DISTINCT o.id, o.price, o.code, i.customer_name, s.value, o.created_at " +
+            "FROM `order` o " +
+            "JOIN order_item oi ON o.id = oi.order_id " +
+            "JOIN recipe r ON oi.recipe_id = r.id " +
+            "JOIN idea i ON r.idea_id = i.id " +
+            "JOIN order_status s ON o.order_status_id = s.id " +
+            "WHERE r.user_id = :userId " +
+            "AND (:orderStatus IS NULL OR s.value = :orderStatus) " +
+            "AND (:minPrice IS NULL OR o.price >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR o.price <= :maxPrice) " +
+            "AND (:search IS NULL OR o.customer_contact_number LIKE %:search% OR o.code LIKE %:search%)"+
+            "GROUP BY o.id, o.price, o.code, i.customer_name, s.value, o.created_at",nativeQuery = true)
+    Page<Object[]> findOrdersByChefId(@Param("userId") Integer userId,
+                               @Param("orderStatus") String orderStatus,
+                               @Param("minPrice") Double minPrice,
+                               @Param("maxPrice") Double maxPrice,
+                               @Param("search") String search,
+                               Pageable pageable);
 
-//    @Query("SELECT new com.yolo.chef.order.dto.OrderResponse(o.id, o.price, o.currencyCode, c.name, s.value, o.createdAt) " +
-//            "FROM Order o " +
-//            "JOIN OrderItem oi ON o.id = oi.orderId " +
-//            "JOIN Recipe r ON oi.recipeId = r.id " +
-//            "JOIN User c ON r.userId = c.id " +
-//            "JOIN OrderStatus s ON o.orderStatusId = s.id " +
-//            "WHERE c.id = :userId " +
-//            "AND (:orderStatus IS NULL OR s.value = :orderStatus) " +
-//            "AND (:minPrice IS NULL OR o.price >= :minPrice) " +
-//            "AND (:maxPrice IS NULL OR o.price <= :maxPrice) " +
-//            "AND (:search IS NULL OR o.customerContactNumber LIKE %:search% OR o.code LIKE %:search%)")
 
-    @Query(value = "SELECT o.id, o.price, o.code, o.code, o.code, o.created_at " +
-            "FROM `order` o ",nativeQuery = true)
-    Page<?> findOrdersByChefId(
-                                           Pageable pageable);
-
-
-
-
+    @Query(value = "SELECT o.price, o.customer_contact_number,i.customer_name,o.id,o.code ," +
+            "a.house, a.street, a.area, a.zip_code, a.city, a.country, " +
+            "r.name AS recipe_name, oi.quantity, oi.price AS item_price, r.serving_size " +
+            "FROM `order` o " +
+            "JOIN address a ON o.address_id = a.id " +
+            "JOIN order_item oi ON o.id = oi.order_id " +
+            "JOIN recipe r ON oi.recipe_id = r.id " +
+            "JOIN idea i ON r.idea_id = i.id " +
+            "WHERE o.id = :orderId",
+            nativeQuery = true)
+    List<Object[]> findOrderDetailsById(@Param("orderId") Integer orderId);
 
 }
 

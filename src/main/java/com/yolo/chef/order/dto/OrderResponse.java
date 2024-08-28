@@ -7,22 +7,21 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class OrderResponse {
-    private Integer orderId;
-    private Long totalPrice;
-    private String currencyCode;
-    private String customerName;
-    private String orderStatus;
-    private LocalDateTime createdAt;
+    private Integer order_id;
+    private Long total_price;
+    private String customer_name;
+    private String status;
+    private LocalDateTime created_at;
 
-    public OrderResponse(Integer orderId, Long totalPrice, String currencyCode, String customerName, String orderStatus, LocalDateTime createdAt) {
-        this.orderId = orderId;
-        this.totalPrice = totalPrice;
-        this.currencyCode = currencyCode;
-        this.customerName = customerName;
-        this.orderStatus = orderStatus;
-        this.createdAt = createdAt;
+    public OrderResponse() {
+        // Default constructor
+    }
+
+    public OrderResponse(Integer order_id, Long total_price, String code, String customer_name, String status, LocalDateTime created_at) {
+        this.order_id = order_id;
+        this.total_price = total_price;
+        this.customer_name = customer_name;
+        this.status = status;
+        this.created_at = created_at;
     }
 }
-
-
-
