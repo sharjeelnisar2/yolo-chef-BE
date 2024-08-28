@@ -34,7 +34,7 @@ api:
   GeminiUrl:
     ${GeminiUrl}
 server:
-  port: 8082
+  port: 8081
 
 jwt:
   auth:

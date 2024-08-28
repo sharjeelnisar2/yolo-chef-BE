@@ -15,6 +15,7 @@ public class UserInfoResponse {
     private String email;
     private String name;
     private List<String> roles;
+    private String message;
 
 //    public UserInfoResponse(String username, String email, String name, Map<String, Object> roles) {
 //    }

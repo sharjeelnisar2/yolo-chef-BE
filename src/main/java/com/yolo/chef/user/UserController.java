@@ -27,17 +27,11 @@ public class UserController {
 
     @GetMapping("/users/{username}")
     public ResponseEntity<UserCheckResponse> checkUserAndProfile(@PathVariable String username) {
-        boolean userExists = userService.userExistsByUsername(username);
-        boolean userProfileExists = userExists && userService.checkUserProfileExists(username);
+        boolean userProfileExists =  userService.checkUserProfileExists(username);
 
-        UserCheckResponse response = new UserCheckResponse(userExists, userProfileExists);
+        UserCheckResponse response = new UserCheckResponse(userProfileExists);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<Map<String, String>> createUser(@RequestBody LoginRequest loginRequest)
-            throws Exception {
-        return userService.createUser(loginRequest);
-    }
 
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCheckResponse {
-    private boolean userExists;
-    private boolean userProfileExists;
+//    private boolean userExists;
+    private boolean is_user_profile_completed;
 }
 

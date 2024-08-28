@@ -1,6 +1,7 @@
 package com.yolo.chef.user;
 
 import com.yolo.chef.userProfile.UserProfileRepository;
+import com.yolo.chef.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,9 @@ public class UserService {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    @Autowired
+    private ValidationUtil validationUtil;
+
     public UserInfoResponse getUserInfo(Authentication authentication) {
         Jwt jwt = (Jwt) authentication.getPrincipal();
 
@@ -35,24 +39,20 @@ public class UserService {
         Map<String, Object> yoloChefAccess = (Map<String, Object>) resourceAccess.get("yolo-chef");
         List<String> roles = (List<String>) yoloChefAccess.get("roles");
 
-        return new UserInfoResponse(username, email, name, roles);
+        String userCreationMessage = createUserIfNotExists(username, email);
+
+        return new UserInfoResponse(username, email, name, roles, userCreationMessage);
     }
 
-
-    public boolean userExistsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
-
-
-    public boolean checkUserProfileExists(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-
-        if (userOptional.isPresent()) {
-            long userId = userOptional.get().getId();
-            return userProfileRepository.existsByUserId(userId);
+    public String createUserIfNotExists(String username, String email) {
+        Optional<User> existingUser = userRepository.findByUsername(username);
+        if (existingUser.isPresent()) {
+            return "User already exists";
         }
 
-        return false;
+        LoginRequest loginRequest = new LoginRequest(username, email);
+        createUser(loginRequest);
+        return "User created successfully";
     }
 
     public ResponseEntity<Map<String, String>> createUser(LoginRequest loginRequest) {
@@ -70,6 +70,19 @@ public class UserService {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    public boolean checkUserProfileExists(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            long userId = userOptional.get().getId();
+            return userProfileRepository.existsByUserId(userId);
+        }
+
+        return false;
+    }
+
+
 
 
 }

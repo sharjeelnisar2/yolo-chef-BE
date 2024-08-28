@@ -29,24 +29,20 @@ public class UserProfileController {
     public ResponseEntity<Map<String, String>> createUserProfile(@PathVariable String username, @RequestBody CreateUserProfileRequest userProfileRq) {
         try {
             ResponseEntity<Map<String, String>> response = userProfileService.createUserProfile(username, userProfileRq);
-            logger.info("Response: {}", response);
             return response;
         } catch (NotFoundException e) {
-            logger.error("Error: Username not exists", e);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "Username not exists");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (IllegalArgumentException e) {
-            logger.error("Error: Bad request", e);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "Bad Request");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
-            logger.error("Internal server error", e);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "Internal server error");

@@ -34,8 +34,6 @@ public class UserProfileService {
     public ResponseEntity<Map<String, String>> createUserProfile(String username,CreateUserProfileRequest userProfileRq) {
         Map<String, String> response = new HashMap<>();
         try {
-            // Log the request data
-            System.out.println("Received request: " + userProfileRq);
             Optional<User> OptinalUser=userRepository.findByUsername(username);
             try{
                 if (OptinalUser.isPresent()) {
@@ -53,7 +51,6 @@ public class UserProfileService {
                     address.setUpdatedAt(LocalDateTime.now());
                     addressRepository.save(address);
 
-
                     UserProfile userProfile = new UserProfile();
                     userProfile.setFirstName(userProfileRq.getFirstName());
                     userProfile.setLastName(userProfileRq.getLastName());
@@ -64,7 +61,6 @@ public class UserProfileService {
                     userProfile.setUserId(user.getId());
                     userProfile.setCurrencyId(1);
                     userProfileRepository.save(userProfile);
-
 
                     response.put("message", "User profile created successfully");
                     return ResponseEntity.status(HttpStatus.CREATED).body(response);
