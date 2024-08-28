@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/jwtToken")
     public UserInfoResponse getUserInfo(@RequestHeader("Authorization") String token, Authentication authentication) {
-        return userService.getUserInfo(authentication);
+        return userService.getUserInfoAndCreateUser(authentication);
     }
 
     @GetMapping("/users/{username}")

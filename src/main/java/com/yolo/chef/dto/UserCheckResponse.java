@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class UserCheckResponse {
 //    private boolean userExists;
     private boolean is_user_profile_completed;
+
+
 }
 

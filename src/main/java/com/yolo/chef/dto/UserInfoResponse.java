@@ -16,6 +16,4 @@ public class UserInfoResponse {
     private List<String> roles;
     private String message;
 
-//    public UserInfoResponse(String username, String email, String name, Map<String, Object> roles) {
-//    }
 }

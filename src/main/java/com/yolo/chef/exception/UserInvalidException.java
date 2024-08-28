@@ -12,4 +12,5 @@ public class UserInvalidException extends RuntimeException {
         super(message);
         this.details=details;
     }
+
 }

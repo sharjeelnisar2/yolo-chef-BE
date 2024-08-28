@@ -27,27 +27,7 @@ public class UserProfileController {
 
     @PostMapping("/{username}/userProfiles")
     public ResponseEntity<Map<String, String>> createUserProfile(@PathVariable String username, @RequestBody CreateUserProfileRequest userProfileRq) {
-        try {
             ResponseEntity<Map<String, String>> response = userProfileService.createUserProfile(username, userProfileRq);
             return response;
-        } catch (NotFoundException e) {
-
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Username not exists");
-            response.put("details", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        } catch (IllegalArgumentException e) {
-
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Bad Request");
-            response.put("details", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } catch (Exception e) {
-
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Internal server error");
-            response.put("details", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
     }
 }

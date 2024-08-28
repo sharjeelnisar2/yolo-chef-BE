@@ -15,19 +15,5 @@ public class CreateUserProfileRequest {
     private String country;
     private String currencyCode;
 
-    @Override
-    public String toString() {
-        return "CreateUserProfileRequest{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
-                ", house='" + house + '\'' +
-                ", street='" + street + '\'' +
-                ", area='" + area + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", city='" + city + '\'' +
-                ", country='" + country + '\'' +
-                ", currencyCode='" + currencyCode + '\'' +
-                '}';
-    }
+
 }
