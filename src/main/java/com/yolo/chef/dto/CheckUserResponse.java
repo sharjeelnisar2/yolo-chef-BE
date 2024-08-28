@@ -1,4 +1,4 @@
-package com.yolo.chef.user;
+package com.yolo.chef.dto;
 
 public class CheckUserResponse {
     private boolean isUserCreated;

@@ -1,5 +1,7 @@
 package com.yolo.chef.user;
 
+import com.yolo.chef.dto.LoginRequest;
+import com.yolo.chef.dto.UserInfoResponse;
 import com.yolo.chef.userProfile.UserProfileRepository;
 import com.yolo.chef.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 
 @Service
@@ -81,8 +83,5 @@ public class UserService {
 
         return false;
     }
-
-
-
 
 }

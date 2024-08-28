@@ -1,13 +1,11 @@
 package com.yolo.chef.user;
 
 import com.yolo.chef.dto.UserCheckResponse;
+import com.yolo.chef.dto.UserInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")

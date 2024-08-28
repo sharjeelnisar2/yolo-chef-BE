@@ -38,8 +38,7 @@ public class UserProfileService {
             try{
                 if (OptinalUser.isPresent()) {
                     User user = OptinalUser.get();
-
-
+                    
                     Address address = new Address();
                     address.setHouse(userProfileRq.getHouse());
                     address.setStreet(userProfileRq.getStreet());

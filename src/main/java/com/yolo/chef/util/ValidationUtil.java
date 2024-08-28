@@ -1,10 +1,8 @@
 package com.yolo.chef.util;
 
 
-import com.yolo.chef.user.LoginRequest;
-import com.yolo.chef.exception.EmailAlreadyExistsException;
+import com.yolo.chef.dto.LoginRequest;
 import com.yolo.chef.exception.UserInvalidException;
-import com.yolo.chef.exception.UsernameAlreadyExistsException;
 import com.yolo.chef.user.UserRepository;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
