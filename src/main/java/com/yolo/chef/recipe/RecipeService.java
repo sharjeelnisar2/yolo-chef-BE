@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -93,5 +94,31 @@ public class RecipeService {
 
         return uniqueFileName;
     }
+    public Optional<Recipe> updateRecipe(RecipeRequest recipeRequest,Integer recipeId) {
+        Optional<Recipe> existing=recipeRepository.findById(recipeId);
+        if (existing.isPresent()) {
+            Recipe recipe=existing.get();
+            if(recipeRequest.getName()!= null && !recipeRequest.getName().isEmpty())
+            {
+                recipe.setName(recipeRequest.getName());
+            }
+            if (recipeRequest.getDescription() != null && !recipeRequest.getDescription().isEmpty()) {
+                recipe.setDescription(recipeRequest.getDescription());
+            }
+            if (recipeRequest.getPrice() != null) {
+                recipe.setPrice(recipeRequest.getPrice());
+            }
+            if (recipeRequest.getServing_size() != null) {
+                recipe.setServingSize(recipeRequest.getServing_size());
+            }
+            recipe.setUpdatedAt(LocalDateTime.now());
+            recipeRepository.save(recipe);
+            return Optional.of(recipe);
+        }
+        else {
+            return Optional.empty();
+        }
 
-}
+    }
+
+    }

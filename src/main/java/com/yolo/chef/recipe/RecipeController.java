@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 public class RecipeController {
@@ -44,4 +46,38 @@ public class RecipeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(message, details));
         }
     }
+    @PatchMapping("api/v1/recipes/{recipeId}")
+    public ResponseEntity<?> updateRecipe(@ModelAttribute RecipeRequest recipeRequest,
+                                          @PathVariable("recipeId") Integer recipeId) {
+
+        try {
+            Optional<Recipe> updatedRecipe = recipeService.updateRecipe(recipeRequest, recipeId);
+
+            if (updatedRecipe.isPresent()) {
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "Recipe updated successfully");
+                return ResponseEntity.ok(response);
+            } else {
+                throw new BadRequestException(
+                        "Invalid recipe ID",
+                        "The recipe with ID: " + recipeId + " does not exist."
+                );
+            }
+        } catch (BadRequestException e) {
+            throw new BadRequestException(
+                    "Invalid recipe ID",
+                    "The recipe with ID: " + recipeId + " does not exist."
+            );
+        } catch (UnauthorizedException e) {
+            throw new UnauthorizedException(
+                    "You are not authorized to update this recipe.",
+                    "User does not have the necessary permissions to update a recipe for ID: " + recipeId
+            );
+        } catch (Exception e) {
+            String message = "An unexpected error occurred while processing your request.";
+            String details = "Error details: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(message, details));
+        }
+    }
+
 }
