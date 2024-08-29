@@ -26,4 +26,8 @@ replay_pid*
 .idea/
 .target/
 .env
+target/
+<<<<<<< Updated upstream
 node_modules
+=======
+>>>>>>> Stashed changes
