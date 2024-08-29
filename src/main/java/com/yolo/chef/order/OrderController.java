@@ -6,6 +6,7 @@ import com.yolo.chef.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class OrderController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_VIEW_ORDERS')")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getOrdersByChefId(
             @PathVariable Integer userId,
@@ -52,6 +54,7 @@ public class OrderController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_VIEW_ORDER_DETAIL')")
     @GetMapping("/detail/{order_id}")
     public ResponseEntity<?> getOrderDetails(@PathVariable Integer order_id)
     {
@@ -65,7 +68,5 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage(), "Internal server error"));
         }
     }
-
-
 }
 
