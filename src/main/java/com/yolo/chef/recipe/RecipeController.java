@@ -5,6 +5,7 @@ import com.yolo.chef.exception.UnauthorizedException;
 import com.yolo.chef.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,6 +20,7 @@ public class RecipeController {
         this.recipeService=recipeService;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_RECIPE')")
     @PostMapping("/api/v1/ideas/{ideaId}/recipes")
     public ResponseEntity<?> createRecipe(@ModelAttribute RecipeRequest recipeRequest, @PathVariable("ideaId") Integer IdeaId) {
 
@@ -39,7 +41,7 @@ public class RecipeController {
         }  catch (Exception e) {
             String message = "An unexpected error occurred while processing your request.";
             String details = "Error details: " + e.getMessage();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("500", message, details));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(message, details));
         }
     }
 }
