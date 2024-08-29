@@ -1,3 +1,4 @@
+
 # Compiled class file
 *.class
 
@@ -9,8 +10,7 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-### STS ###
-.env
+
 # Package Files #
 *.jar
 *.war
@@ -26,4 +26,4 @@ replay_pid*
 
 .idea/
 .target/
-
+.env
