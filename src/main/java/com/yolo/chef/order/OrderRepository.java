@@ -29,11 +29,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
                                Pageable pageable);
 
 
-    @Query(value = "SELECT o.price, o.customer_contact_number,i.customer_name,o.id,o.code ," +
+    @Query(value = "SELECT o.price, o.customer_contact_number,i.customer_name,o.created_at,s.value ," +
             "a.house, a.street, a.area, a.zip_code, a.city, a.country, " +
             "r.name AS recipe_name, oi.quantity, oi.price AS item_price, r.serving_size " +
             "FROM `order` o " +
             "JOIN address a ON o.address_id = a.id " +
+            "JOIN order_status s ON o.order_status_id = s.id " +
             "JOIN order_item oi ON o.id = oi.order_id " +
             "JOIN recipe r ON oi.recipe_id = r.id " +
             "JOIN idea i ON r.idea_id = i.id " +

@@ -17,7 +17,7 @@ public class OrderResponse {
         // Default constructor
     }
 
-    public OrderResponse(Integer order_id, Long total_price, String code, String customer_name, String status, LocalDateTime created_at) {
+    public OrderResponse(Integer order_id, Long total_price, String customer_name, String status, LocalDateTime created_at) {
         this.order_id = order_id;
         this.total_price = total_price;
         this.customer_name = customer_name;

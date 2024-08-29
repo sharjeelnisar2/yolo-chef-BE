@@ -1,7 +1,6 @@
 package com.yolo.chef.order;
 
-import com.yolo.chef.order.Order;
-import com.yolo.chef.order.OrderRepository;
+
 import com.yolo.chef.address.Address;
 import com.yolo.chef.address.AddressRepository;
 import com.yolo.chef.order.dto.OrderDetailsResponse;
@@ -11,19 +10,16 @@ import com.yolo.chef.orderItem.OrderItem;
 import com.yolo.chef.orderItem.OrderItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RecursiveTask;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,10 +109,12 @@ public class OrderService {
 
         // Map the OrderDTO
         OrderDetailsResponse.OrderDTO orderDTO = new OrderDetailsResponse.OrderDTO();
-        orderDTO.setCustomer_name((String) firstResult[2]);
         orderDTO.setTotal_price((Long) firstResult[0]);
-        orderDTO.setCurrency_code("USD");
         orderDTO.setCustomer_contact_number((String) firstResult[1]);
+        orderDTO.setCustomer_name((String) firstResult[2]);
+        orderDTO.setCreated_at(((Timestamp) firstResult[3]).toLocalDateTime());
+        orderDTO.setCurrency_code("USD");
+        orderDTO.setStatus((String) firstResult[4]);
 
         // Map the AddressDTO
         OrderDetailsResponse.OrderDTO.AddressDTO addressDTO = new OrderDetailsResponse.OrderDTO.AddressDTO();

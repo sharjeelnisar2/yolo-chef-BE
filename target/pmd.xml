@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd" version="7.0.0" timestamp="2024-08-29T02:33:47.236">
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\dietaryRestriction\DietaryRestriction.java">
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="32" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.dietaryRestriction" class="DietaryRestriction" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.LocalDateTime'
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\exception\ApiExceptionHandler.java">
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="32" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.exception" class="ApiExceptionHandler" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.slf4j.LoggerFactory'
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\interest\Interest.java">
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="32" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.interest" class="Interest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.LocalDateTime'
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\order\OrderService.java">
+<violation beginline="149" endline="149" begincolumn="48" endcolumn="58" rule="UnusedFormalParameter" ruleset="Best Practices" package="com.yolo.chef.order" class="OrderService" method="getRecipeIdFromCode" variable="recipeCode" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'recipeCode'.
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\order\dto\OrderResponse.java">
+<violation beginline="20" endline="20" begincolumn="69" endcolumn="73" rule="UnusedFormalParameter" ruleset="Best Practices" package="com.yolo.chef.order.dto" class="OrderResponse" method="OrderResponse" variable="code" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused constructor parameters such as 'code'.
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\recipe\RecipeController.java">
+<violation beginline="3" endline="3" begincolumn="1" endcolumn="52" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.exception.BadRequestException'
+</violation>
+<violation beginline="4" endline="4" begincolumn="1" endcolumn="54" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.exception.UnauthorizedException'
+</violation>
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="45" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.response.ErrorResponse'
+</violation>
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="44" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.http.HttpStatus'
+</violation>
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="48" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.http.ResponseEntity'
+</violation>
+<violation beginline="10" endline="10" begincolumn="1" endcolumn="21" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.net.URI'
+</violation>
+<violation beginline="11" endline="11" begincolumn="1" endcolumn="26" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.HashMap'
+</violation>
+<violation beginline="12" endline="12" begincolumn="1" endcolumn="22" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.Map'
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\recipe\RecipeRequest.java">
+<violation beginline="3" endline="3" begincolumn="1" endcolumn="35" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'jakarta.persistence.Entity'
+</violation>
+<violation beginline="4" endline="4" begincolumn="1" endcolumn="43" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'jakarta.persistence.GeneratedValue'
+</violation>
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="43" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'jakarta.persistence.GenerationType'
+</violation>
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="31" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'jakarta.persistence.Id'
+</violation>
+<violation beginline="12" endline="12" begincolumn="1" endcolumn="32" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.LocalDateTime'
+</violation>
+</file>
+<file name="D:\yolo-chef-BE\src\main\java\com\yolo\chef\recipe\RecipeService.java">
+<violation beginline="3" endline="3" begincolumn="1" endcolumn="52" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.exception.BadRequestException'
+</violation>
+<violation beginline="4" endline="4" begincolumn="1" endcolumn="46" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.recipeImage.RecipeImage'
+</violation>
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="56" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.recipeImage.RecipeImageRepository'
+</violation>
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="48" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.yolo.chef.recipeStatus.RecipeStatus'
+</violation>
+<violation beginline="8" endline="8" begincolumn="1" endcolumn="56" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.web.multipart.MultipartFile'
+</violation>
+<violation beginline="10" endline="10" begincolumn="1" endcolumn="28" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.io.IOException'
+</violation>
+<violation beginline="11" endline="11" begincolumn="1" endcolumn="29" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.math.BigInteger'
+</violation>
+<violation beginline="12" endline="12" begincolumn="1" endcolumn="28" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.nio.file.Files'
+</violation>
+<violation beginline="13" endline="13" begincolumn="1" endcolumn="27" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.nio.file.Path'
+</violation>
+<violation beginline="14" endline="14" begincolumn="1" endcolumn="28" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.nio.file.Paths'
+</violation>
+<violation beginline="15" endline="15" begincolumn="1" endcolumn="41" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.nio.file.StandardCopyOption'
+</violation>
+<violation beginline="16" endline="16" begincolumn="1" endcolumn="35" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.security.SecureRandom'
+</violation>
+<violation beginline="17" endline="17" begincolumn="1" endcolumn="32" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.LocalDateTime'
+</violation>
+<violation beginline="18" endline="18" begincolumn="1" endcolumn="25" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.Random'
+</violation>
+<violation beginline="19" endline="19" begincolumn="1" endcolumn="23" rule="UnnecessaryImport" ruleset="Code Style" package="com.yolo.chef.recipe" class="RecipeService" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.UUID'
+</violation>
+</file>
+</pmd>

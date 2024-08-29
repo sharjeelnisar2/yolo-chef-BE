@@ -3,6 +3,7 @@ package com.yolo.chef.order.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,8 @@ public class OrderDetailsResponse {
         private String currency_code;
         private String customer_contact_number;
         private AddressDTO address;
+        private String status;
+        private LocalDateTime created_at;
         private List<OrderItemDTO> order_items;
 
         @Getter
