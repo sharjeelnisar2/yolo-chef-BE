@@ -1,9 +1,6 @@
 package com.yolo.chef.recipeStatus;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +15,12 @@ public class RecipeStatus {
     private Integer id;
     private String code;
     private String value;
-    private Integer isActive;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
 }
