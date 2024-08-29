@@ -9,10 +9,15 @@ import com.yolo.chef.recipeImage.RecipeImageRepository;
 import com.yolo.chef.recipeImage.RecipeImageService;
 import com.yolo.chef.recipeStatus.RecipeStatus;
 import com.yolo.chef.recipeStatus.RecipeStatusService;
+import com.yolo.chef.user.User;
+import com.yolo.chef.user.UserRepository;
 import com.yolo.chef.util.ApiMessages;
+import com.yolo.chef.util.LoggedinUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +34,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class RecipeService {
+    private final UserRepository userRepository;
     private final RecipeRepository recipeRepository;
     private final IdeaService ideaService;
     private final RecipeImageService recipeImageService;
@@ -103,12 +109,13 @@ public class RecipeService {
 
     public RecipeListResponse getAllRecipesByChef(Integer ideaId, String status, String sortOrder) {
         List<Recipe> recipes;
-
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
         if (status != null) {
             Integer statusId = recipeStatusService.findStatusIdByName(status);
-            recipes = recipeRepository.findByUserIdAndIdeaIdAndRecipeStatusId(2, ideaId, statusId);
+            recipes = recipeRepository.findByUserIdAndIdeaIdAndRecipeStatusId(user.get().getId(), ideaId, statusId);
         } else {
-            recipes = recipeRepository.findByUserIdAndIdeaId(2, ideaId);
+            recipes = recipeRepository.findByUserIdAndIdeaId(user.get().getId(), ideaId);
         }
 
         if ("desc".equalsIgnoreCase(sortOrder)) {
@@ -123,7 +130,10 @@ public class RecipeService {
 
     public RecipeDetailsResponseWrapper getRecipeDetailsByRecipeId(Integer recipeId)
     {
-        Optional<Recipe> recipe = recipeRepository.findByUserIdAndId(2, recipeId);
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
+
+        Optional<Recipe> recipe = recipeRepository.findByUserIdAndId(user.get().getId(), recipeId);
         if(recipe.isPresent())
         {
             return new RecipeDetailsResponseWrapper(recipe.get(), ideaService, recipeImageService, recipeStatusService);
@@ -135,11 +145,14 @@ public class RecipeService {
     }
     public ResponseEntity<Map<String, String>> updateRecipeStatus(Integer recipeId, String status)
     {
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
+
         if(status==null || status.isEmpty())
         {
             throw new RecipeStatusInvalidException(ApiMessages.RECIPE_STATUS_EMPTY_ERROR.getMessage(), "Recipe status cannot be empty" );
         }
-        Optional<Recipe> recipe = recipeRepository.findByUserIdAndId(2, recipeId);
+        Optional<Recipe> recipe = recipeRepository.findByUserIdAndId(user.get().getId(), recipeId);
         if(recipe.isPresent())
         {
             Integer statusId = recipeStatusService.findStatusIdByName(status);
@@ -160,8 +173,10 @@ public class RecipeService {
 
     public ResponseEntity<Map<String, String>> deleteRecipe(Integer recipeId)
     {
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
         Integer statusId = recipeStatusService.findStatusIdByName("Draft");
-        Optional<Recipe> recipe = recipeRepository.findByUserIdAndIdAndRecipeStatusId(2, recipeId, statusId);
+        Optional<Recipe> recipe = recipeRepository.findByUserIdAndIdAndRecipeStatusId(user.get().getId(), recipeId, statusId);
         if(recipe.isPresent())
         {
             statusId = recipeStatusService.findStatusIdByName("Archived");

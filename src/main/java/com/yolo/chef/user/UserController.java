@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping("/jwtToken")
     public UserInfoResponse getUserInfo(@RequestHeader("Authorization") String token, Authentication authentication) {
-        SecurityContextPrinter.printSecurityContext();
+//        SecurityContextPrinter.printSecurityContext();
         return userService.getUserInfoAndCreateUser(authentication);
     }
 
