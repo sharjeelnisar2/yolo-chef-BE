@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class GeminiApiService{
+public class AIAssistantService {
 
     @Value("${api.key}")
     private String apiKey;
@@ -19,7 +19,7 @@ public class GeminiApiService{
     private final RestTemplate restTemplate;
 
     private final ObjectMapper objectMapper;
-    public GeminiApiService(RestTemplate restTemplate,ObjectMapper objectMapper) {
+    public AIAssistantService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper=objectMapper;
     }
