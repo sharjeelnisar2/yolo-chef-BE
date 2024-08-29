@@ -28,13 +28,15 @@ public class RecipeController {
 
         try {
             Recipe recipe = recipeService.createRecipe(recipeRequest, IdeaId);
-            Map<String, String> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("message", "Recipe created successfully");
+            response.put("id",recipe.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (BadRequestException e) {
 
-            throw new BadRequestException(                      "Invalid request data. Please check your input and try again.",
-                    "The provided data for the recipe creation is not valid. Idea ID: " + IdeaId            );
+            throw new BadRequestException(
+                    e.getMessage(),
+                    e.getDetails());
         } catch (UnauthorizedException e) {
             throw new UnauthorizedException(
                     "You are not authorized to create this recipe.",
@@ -46,6 +48,7 @@ public class RecipeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(message, details));
         }
     }
+   @PreAuthorize("hasAnyAuthority('ROLE_UPDATE_RECIPE')")
     @PatchMapping("api/v1/recipes/{recipeId}")
     public ResponseEntity<?> updateRecipe(@ModelAttribute RecipeRequest recipeRequest,
                                           @PathVariable("recipeId") Integer recipeId) {
@@ -65,8 +68,8 @@ public class RecipeController {
             }
         } catch (BadRequestException e) {
             throw new BadRequestException(
-                    "Invalid recipe ID",
-                    "The recipe with ID: " + recipeId + " does not exist."
+                    e.getMessage(),
+                    e.getDetails()
             );
         } catch (UnauthorizedException e) {
             throw new UnauthorizedException(

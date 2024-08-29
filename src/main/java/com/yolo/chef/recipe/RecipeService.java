@@ -47,6 +47,19 @@ public class RecipeService {
                     "The price must be greater than zero. Provided value: " + recipeRequest.getPrice()
             );
         }
+        if (recipeRequest.getServing_size()<= 0) {
+            throw new BadRequestException(
+                    "Invalid Serving provided.",
+                    "The serving size must be greater than zero. Provided value: " + recipeRequest.getServing_size()
+            );
+        }
+        if (recipeRequest.getImages() == null || recipeRequest.getImages().length == 0)
+        {
+            throw new BadRequestException(
+                    "Invalid Images ",
+                    "The Recipe must have atleast 1 image"
+            );
+        }
         Recipe recipe=new Recipe();
         recipe.setName(recipeRequest.getName());
         recipe.setDescription(recipeRequest.getDescription());
@@ -95,6 +108,19 @@ public class RecipeService {
         return uniqueFileName;
     }
     public Optional<Recipe> updateRecipe(RecipeRequest recipeRequest,Integer recipeId) {
+        System.out.println(recipeId);
+        if (recipeRequest.getPrice().compareTo(BigInteger.ZERO) <= 0) {
+            throw new BadRequestException(
+                    "Invalid price provided.",
+                    "The price must be greater than zero. Provided value: " + recipeRequest.getPrice()
+            );
+        }
+        if (recipeRequest.getServing_size()<= 0) {
+            throw new BadRequestException(
+                    "Invalid Serving provided.",
+                    "The serving size must be greater than zero. Provided value: " + recipeRequest.getServing_size()
+            );
+        }
         Optional<Recipe> existing=recipeRepository.findById(recipeId);
         if (existing.isPresent()) {
             Recipe recipe=existing.get();
