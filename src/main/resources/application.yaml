@@ -23,12 +23,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQLDialect
 
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
+api:
+  key:
+    ${ApiKey}
+  GeminiUrl:
+    ${GeminiUrl}
 server:
   port: 8082
 
