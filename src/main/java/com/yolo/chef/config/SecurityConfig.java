@@ -19,14 +19,13 @@ public class SecurityConfig {
 
     private final JwtAuthConverter jwtAuthConverter;
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withJwkSetUri("http://localhost:8083/realms/Yolo/protocol/openid-connect/certs")
-                .build();
-    }
-
     public SecurityConfig(JwtAuthConverter jwtAuthConverter) {
         this.jwtAuthConverter = jwtAuthConverter;
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withJwkSetUri("http://localhost:8083/realms/Yolo/protocol/openid-connect/certs").build();
     }
 
     @Bean
@@ -40,4 +39,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-

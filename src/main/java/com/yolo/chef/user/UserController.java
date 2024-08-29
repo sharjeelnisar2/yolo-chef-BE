@@ -1,7 +1,9 @@
+
 package com.yolo.chef.user;
 
 import com.yolo.chef.dto.UserCheckResponse;
 import com.yolo.chef.dto.UserInfoResponse;
+//import com.yolo.chef.util.SecurityContextPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ public class UserController {
 
     @GetMapping("/jwtToken")
     public UserInfoResponse getUserInfo(@RequestHeader("Authorization") String token, Authentication authentication) {
+//        SecurityContextPrinter.printSecurityContext();
         return userService.getUserInfoAndCreateUser(authentication);
     }
 
