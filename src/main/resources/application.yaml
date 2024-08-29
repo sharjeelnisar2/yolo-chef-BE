@@ -8,9 +8,10 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8083/realms/Yolo
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
-
+#          issuer-uri: http://localhost:8083/realms/Yolo  ${JwtIssuerURI}
+#          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs ${JwtSetURI}
+           issuer-uri: ${JwtIssuerURI}
+           jwk-set-uri: ${JwtSetURI}
   application:
     name: chef
   datasource:
