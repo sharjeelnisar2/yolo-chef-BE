@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-
+@CrossOrigin
 @RestController
 public class RecipeController {
     public final RecipeService recipeService;
@@ -21,6 +21,7 @@ public class RecipeController {
 
     @PostMapping("/api/v1/ideas/{ideaId}/recipes")
     public ResponseEntity<?> createRecipe(@ModelAttribute RecipeRequest recipeRequest, @PathVariable("ideaId") Integer IdeaId) {
+
         try {
             Recipe recipe = recipeService.createRecipe(recipeRequest, IdeaId);
             Map<String, String> response = new HashMap<>();
@@ -28,7 +29,7 @@ public class RecipeController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (BadRequestException e) {
 
-            throw new BadRequestException(                     "Invalid request data. Please check your input and try again.",
+            throw new BadRequestException(                      "Invalid request data. Please check your input and try again.",
                     "The provided data for the recipe creation is not valid. Idea ID: " + IdeaId            );
         } catch (UnauthorizedException e) {
             throw new UnauthorizedException(

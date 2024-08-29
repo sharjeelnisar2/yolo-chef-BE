@@ -66,7 +66,7 @@ public class RecipeService {
             RecipeImage recipeImage=new RecipeImage();
 
             String url=saveImageToStorage(recipeRequest.getImages()[i]);
-            recipeImage.setUrl("src/main/resources/static/images/ads"+url);
+            recipeImage.setUrl("C://Users/esha.ashfaq/Desktop/RecipeImages/"+recipe.getName()+"/"+url);
             recipeImage.setCreatedAt(LocalDateTime.now());
             recipeImage.setUpdatedAt(LocalDateTime.now());
             recipeImage.setRecipeId(recipe.getId());
@@ -75,8 +75,8 @@ public class RecipeService {
         return recipe;
     }
     public String saveImageToStorage(MultipartFile imageFile) {
-        String uploadDirectory = "src/main/resources/static/images/ads";
-        String uniqueFileName = UUID.randomUUID().toString() + "_" + "esha";
+        String uploadDirectory = "C://Users/esha.ashfaq/Desktop/RecipeImages";
+        String uniqueFileName = UUID.randomUUID().toString() ;
 
         Path uploadPath = Path.of(uploadDirectory);
         Path filePath = uploadPath.resolve(uniqueFileName);
