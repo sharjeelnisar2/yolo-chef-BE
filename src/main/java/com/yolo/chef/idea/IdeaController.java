@@ -18,7 +18,8 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/ideas")
-@CrossOrigin
+
+
 public class IdeaController {
     @Autowired
     private IdeaService ideaService;
