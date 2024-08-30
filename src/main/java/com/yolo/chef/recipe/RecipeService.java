@@ -54,6 +54,13 @@ public class RecipeService {
         }
         return code.toString();
     }
+
+    public Integer getRecipeCount(Integer ID)
+    {
+        List<Recipe> recipesList=recipeRepository.findByIdeaId(ID);
+        Integer recipeCount=recipesList.size();
+        return recipeCount;
+    }
     public Recipe createRecipe(RecipeRequest recipeRequest,Integer ideaId)
     {
         if (recipeRequest.getPrice().compareTo(BigInteger.ZERO) <= 0) {
