@@ -40,3 +40,38 @@ databaseChangeLog:
             referencedColumnNames: id
             constraintName: recipe_id_Fk
 
+  - changeSet:
+      id: insert-dummy-data-0.0.1
+      author: vendor_team
+      changes:
+        - insert:
+            tableName: recipe_image
+            columns:
+              - column:
+                  name: url
+                  value: "C:\\Users\\muhammad.daud.rizvi\\Desktop\\RecipeImages\\Cake.png"
+              - column:
+                  name: created_at
+                  valueDate: "2024-01-01T12:00:00"
+              - column:
+                  name: updated_at
+                  valueDate: "2024-01-01T12:00:00"
+              - column:
+                  name: recipe_id
+                  value: 7
+
+        - insert:
+            tableName: recipe_image
+            columns:
+              - column:
+                  name: url
+                  value: "C:\\Users\\muhammad.daud.rizvi\\Desktop\\RecipeImages\\Sundae.png"
+              - column:
+                  name: created_at
+                  valueDate: "2024-01-01T12:00:00"
+              - column:
+                  name: updated_at
+                  valueDate: "2024-01-01T12:00:00"
+              - column:
+                  name: recipe_id
+                  value: 8

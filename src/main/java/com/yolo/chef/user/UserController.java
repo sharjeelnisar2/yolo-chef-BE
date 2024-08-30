@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/users/{username}")
     public ResponseEntity<UserCheckResponse> checkUserAndProfile(@PathVariable String username) {
-        boolean userProfileExists =  userService.checkUserProfileExists(username);
+        boolean userProfileExists = userService.checkUserProfileExists(username);
 
         UserCheckResponse response = new UserCheckResponse(userProfileExists);
         return ResponseEntity.ok(response);
