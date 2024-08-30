@@ -6,6 +6,7 @@ import com.yolo.chef.recipeImage.RecipeImageRepository;
 import com.yolo.chef.recipeStatus.RecipeStatus;
 import com.yolo.chef.user.User;
 import com.yolo.chef.user.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -43,6 +45,12 @@ public class RecipeService {
         this.recipeImageRepository=recipeImageRepository;
         this.recipeRepository=recipeRepository;
         this.userRepository=userRepository;
+    }
+    public Integer getRecipeCount(Integer ID)
+    {
+        List<Recipe> recipesList=recipeRepository.findByIdeaId(ID);
+        Integer recipeCount=recipesList.size();
+        return recipeCount;
     }
     public Recipe createRecipe(RecipeRequest recipeRequest,Integer ideaId)
     {
@@ -72,7 +80,6 @@ public class RecipeService {
         recipe.setServingSize(recipeRequest.getServing_size());
         recipe.setCreatedAt(LocalDateTime.now());
         recipe.setUpdatedAt(LocalDateTime.now());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         Optional<User> user= userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         recipe.setUserId(user.get().getId());
@@ -139,7 +146,6 @@ public class RecipeService {
     }
 
     public Optional<Recipe> updateRecipe(RecipeRequest recipeRequest,Integer recipeId) {
-        System.out.println(recipeId);
         if (recipeRequest.getPrice().compareTo(BigInteger.ZERO) <= 0) {
             throw new BadRequestException(
                     "Invalid price provided.",
@@ -163,7 +169,7 @@ public class RecipeService {
                 recipe.setDescription(recipeRequest.getDescription());
             }
             if (recipeRequest.getPrice() != null) {
-                recipe.setPrice(recipeRequest.getPrice());
+                recipe.setPrice(recipeRequest.getPrice().multiply(BigInteger.valueOf(100)));
             }
             if (recipeRequest.getServing_size() != null) {
                 recipe.setServingSize(recipeRequest.getServing_size());

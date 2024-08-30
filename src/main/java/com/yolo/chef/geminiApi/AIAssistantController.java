@@ -1,8 +1,10 @@
 package com.yolo.chef.geminiApi;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,7 @@ public class AIAssistantController {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                responseMap.put("error", "Failed to parse AI response");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to parse AI response", e);
             }
             return responseMap;
         }

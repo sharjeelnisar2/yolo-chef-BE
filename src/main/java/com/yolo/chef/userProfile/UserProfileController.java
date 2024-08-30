@@ -1,6 +1,7 @@
 package com.yolo.chef.userProfile;
 
 import com.yolo.chef.dto.CreateUserProfileRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,9 @@ public class UserProfileController {
     private UserProfileService userProfileService;
 
     @PostMapping("/{username}/userProfiles")
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_USER_PROFILE')")
     public ResponseEntity<Map<String, String>> createUserProfile(@PathVariable String username, @RequestBody CreateUserProfileRequest userProfileRq) {
-            ResponseEntity<Map<String, String>> response = userProfileService.createUserProfile(username, userProfileRq);
-            return response;
+        ResponseEntity<Map<String, String>> response = userProfileService.createUserProfile(username, userProfileRq);
+        return response;
     }
 }

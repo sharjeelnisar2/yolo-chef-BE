@@ -15,10 +15,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.http.HttpStatus;
 
@@ -49,15 +46,19 @@ public class UserService {
         }
 
         Map<String, Object> yoloChefAccess = (Map<String, Object>) resourceAccess.get("yolo-chef");
-        if (yoloChefAccess == null) {
-            throw new InvalidJwtException("JWT claim missing", "Missing 'yolo-chef' access in JWT");
+        List<String> roles = Collections.emptyList();  // Default to empty list
+
+        if (yoloChefAccess != null) {
+            roles = (List<String>) yoloChefAccess.get("roles");
+            if (roles == null) {
+                roles = Collections.emptyList();  // Ensure roles is not null
+            }
         }
 
-        List<String> roles = (List<String>) yoloChefAccess.get("roles");
         String userCreationMessage = createUserIfNotExists(username, email);
-
         return new UserInfoResponse(username, email, name, roles, userCreationMessage);
     }
+
 
     public String createUserIfNotExists(String username, String email) {
         Optional<User> existingUser = userRepository.findByUsername(username);
