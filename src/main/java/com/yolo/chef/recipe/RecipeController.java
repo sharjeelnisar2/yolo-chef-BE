@@ -1,5 +1,7 @@
 package com.yolo.chef.recipe;
 
+import com.yolo.chef.dto.RecipeDetailsResponseWrapper;
+import com.yolo.chef.dto.RecipeListResponse;
 import com.yolo.chef.exception.BadRequestException;
 import com.yolo.chef.exception.UnauthorizedException;
 import com.yolo.chef.response.ErrorResponse;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/api/v1")
 public class RecipeController {
     public final RecipeService recipeService;
     public RecipeController(RecipeService recipeService)
@@ -23,7 +26,7 @@ public class RecipeController {
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_CREATE_RECIPE')")
-    @PostMapping("/api/v1/ideas/{ideaId}/recipes")
+    @PostMapping("/ideas/{ideaId}/recipes")
     public ResponseEntity<?> createRecipe(@ModelAttribute RecipeRequest recipeRequest, @PathVariable("ideaId") Integer IdeaId) {
 
         try {
@@ -49,7 +52,7 @@ public class RecipeController {
         }
     }
    @PreAuthorize("hasAnyAuthority('ROLE_UPDATE_RECIPE')")
-    @PatchMapping("api/v1/recipes/{recipeId}")
+    @PatchMapping("/recipes/{recipeId}")
     public ResponseEntity<?> updateRecipe(@ModelAttribute RecipeRequest recipeRequest,
                                           @PathVariable("recipeId") Integer recipeId) {
 
@@ -81,6 +84,38 @@ public class RecipeController {
             String details = "Error details: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(message, details));
         }
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_VIEW_RECIPES')")
+    @GetMapping("/ideas/{idea_id}/recipes")
+    public ResponseEntity<RecipeListResponse> getRecipesByIdeaId(
+            @PathVariable("idea_id") Integer ideaId,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "sort_order", required = false, defaultValue = "desc") String sortOrder) {
+
+        RecipeListResponse recipeListResponse = recipeService.getAllRecipesByChef(ideaId, status, sortOrder);
+        return ResponseEntity.ok(recipeListResponse);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_VIEW_RECIPE_DETAIL')")
+    @GetMapping("/recipes/{recipe_id}")
+    public ResponseEntity<RecipeDetailsResponseWrapper> getRecipeDetailsByRecipeId(@PathVariable("recipe_id") Integer recipeId) {
+
+        RecipeDetailsResponseWrapper recipeDetails = recipeService.getRecipeDetailsByRecipeId(recipeId);
+        return ResponseEntity.ok(recipeDetails);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_UPDATE_RECIPE_STATUS')")
+    @PatchMapping("/recipe-status/{recipe_id}")
+    public ResponseEntity<Map<String, String>> updateRecipeStatus(@PathVariable("recipe_id") Integer recipeId, @RequestBody Map<String, String> requestBody ) throws Exception {
+        String status = requestBody.get("status");
+        return recipeService.updateRecipeStatus(recipeId, status);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_DELETE_RECIPE')")
+    @DeleteMapping("/recipes/{recipe_id}")
+    public ResponseEntity<Map<String, String>> deleteRecipe(@PathVariable("recipe_id") Integer recipeId ) throws Exception {
+        return recipeService.deleteRecipe(recipeId);
     }
 
 }

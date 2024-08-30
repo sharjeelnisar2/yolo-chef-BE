@@ -1,11 +1,25 @@
 package com.yolo.chef.recipe;
 
+import com.yolo.chef.dto.RecipeDetailsResponseWrapper;
+import com.yolo.chef.dto.RecipeListResponse;
+import com.yolo.chef.dto.RecipeRequestForCustomerApp;
 import com.yolo.chef.exception.BadRequestException;
+import com.yolo.chef.exception.RecipeNotFoundException;
+import com.yolo.chef.exception.RecipeStatusInvalidException;
+import com.yolo.chef.idea.IdeaService;
+import com.yolo.chef.mapper.RecipeRequestForCustomerAppMapper;
 import com.yolo.chef.recipeImage.RecipeImage;
 import com.yolo.chef.recipeImage.RecipeImageRepository;
+import com.yolo.chef.recipeImage.RecipeImageService;
 import com.yolo.chef.recipeStatus.RecipeStatus;
+import com.yolo.chef.recipeStatus.RecipeStatusService;
 import com.yolo.chef.user.User;
 import com.yolo.chef.user.UserRepository;
+import com.yolo.chef.util.ApiMessages;
+import com.yolo.chef.util.LoggedinUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,15 +32,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 public class RecipeService {
-    public final RecipeRepository recipeRepository;
-    public final RecipeImageRepository recipeImageRepository;
-    public final UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RecipeRepository recipeRepository;
+    private final IdeaService ideaService;
+    private final RecipeImageService recipeImageService;
+    private final RecipeStatusService recipeStatusService;
+    private final RecipeImageRepository recipeImageRepository;
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final int CODE_LENGTH = 5;
     private static final Random RANDOM = new SecureRandom();
@@ -37,12 +53,6 @@ public class RecipeService {
             code.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
         }
         return code.toString();
-    }
-    public RecipeService(RecipeRepository recipeRepository, RecipeImageRepository recipeImageRepository, UserRepository userRepository)
-    {
-        this.recipeImageRepository=recipeImageRepository;
-        this.recipeRepository=recipeRepository;
-        this.userRepository=userRepository;
     }
     public Recipe createRecipe(RecipeRequest recipeRequest,Integer ideaId)
     {
@@ -176,6 +186,96 @@ public class RecipeService {
             return Optional.empty();
         }
 
+    }
+
+    public RecipeListResponse getAllRecipesByChef(Integer ideaId, String status, String sortOrder) {
+        List<Recipe> recipes;
+        String username= LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
+        if (status != null) {
+            Integer statusId = recipeStatusService.findStatusIdByName(status);
+            recipes = recipeRepository.findByUserIdAndIdeaIdAndRecipeStatusId(user.get().getId(), ideaId, statusId);
+        } else {
+            recipes = recipeRepository.findByUserIdAndIdeaId(user.get().getId(), ideaId);
+        }
+
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            recipes.sort((r1, r2) -> r2.getCreatedAt().compareTo(r1.getCreatedAt()));
+        } else {
+            recipes.sort((r1, r2) -> r1.getCreatedAt().compareTo(r2.getCreatedAt()));
+        }
+
+        return new RecipeListResponse(recipes, ideaService, recipeImageService);
+    }
+
+
+    public RecipeDetailsResponseWrapper getRecipeDetailsByRecipeId(Integer recipeId)
+    {
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
+
+        Optional<Recipe> recipe = recipeRepository.findByUserIdAndId(user.get().getId(), recipeId);
+        if(recipe.isPresent())
+        {
+            return new RecipeDetailsResponseWrapper(recipe.get(), ideaService, recipeImageService, recipeStatusService);
+        }
+        else {
+            throw new RecipeNotFoundException(ApiMessages.RECIPE_NOT_FOUND.getMessage(),"The Recipe Against Recipe Id : " + recipeId +" Not Found" );
+        }
+
+    }
+    public ResponseEntity<Map<String, String>> updateRecipeStatus(Integer recipeId, String status)
+    {
+        if(status.equalsIgnoreCase("draft") || status.isEmpty())
+        {
+            throw new RecipeStatusInvalidException(String.format(ApiMessages.RECIPE_STATUS_INVALID_ERROR.getMessage(), status), "Please give correct status");
+        }
+
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
+        Optional<Recipe> recipe = recipeRepository.findByUserIdAndId(user.get().getId(), recipeId);
+
+        if(recipe.isPresent())
+        {
+            if(recipe.get().getRecipeStatusId()==recipeStatusService.findStatusIdByName("submitted"))
+            {
+                throw new RecipeStatusInvalidException("Recipe is already submitted", "Please don't try to submit again");
+            }
+            RecipeRequestForCustomerAppMapper.printRecipeAsJson(new RecipeRequestForCustomerApp(recipe.get(), ideaService, recipeImageService));
+            Integer statusId = recipeStatusService.findStatusIdByName(status);
+            if(statusId==null)
+            {
+                throw new RecipeStatusInvalidException(String.format(ApiMessages.RECIPE_STATUS_INVALID_ERROR.getMessage(), status), "Please give correct status");
+            }
+            recipe.get().setRecipeStatusId(statusId);
+            recipeRepository.save(recipe.get());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Recipe status updated successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        else {
+            throw new RecipeNotFoundException(ApiMessages.RECIPE_NOT_FOUND.getMessage(),"The Recipe Against Recipe Id : " + recipeId +" Not Found" );
+        }
+    }
+
+    public ResponseEntity<Map<String, String>> deleteRecipe(Integer recipeId)
+    {
+        String username=LoggedinUser.getUserName();
+        Optional<User> user=userRepository.findByUsername(username);
+        Integer statusId = recipeStatusService.findStatusIdByName("Draft");
+        Optional<Recipe> recipe = recipeRepository.findByUserIdAndIdAndRecipeStatusId(user.get().getId(), recipeId, statusId);
+        if(recipe.isPresent())
+        {
+            statusId = recipeStatusService.findStatusIdByName("Archived");
+            recipe.get().setRecipeStatusId(statusId);
+            recipeRepository.save(recipe.get());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Recipe deleted successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        else {
+            throw new RecipeNotFoundException(ApiMessages.RECIPE_NOT_FOUND.getMessage(),"The Recipe Against Recipe Id : " + recipeId +" Not Found" );
+        }
     }
 
     }
