@@ -50,7 +50,12 @@ public enum ApiMessages {
     USER_PHONE_NUMBER_EMPTY_ERROR("Phone number cannot be empty"),
     USER_PHONE_NUMBER_INVALID_ERROR("Invalid phone number: %s for country code: %s"),
     USER_REGISTRATION_SUCCESS("User registered successfully"),
-    USER_UPDATE_SUCCESS("User updated successfully");
+    USER_UPDATE_SUCCESS("User updated successfully"),
+    RECIPE_STATUS_EMPTY_ERROR("Recipe status cannot be empty"),
+    RECIPE_STATUS_INVALID_ERROR("Invalid recipe status: %s"),
+    ORDER_INVALID_ERROR("Order does not exist"),
+    ORDER_STATUS_EMPTY_ERROR("Order status cannot be empty"),
+    ORDER_STATUS_INVALID_ERROR("Invalid order status: %s");
     private final String message;
 
 }

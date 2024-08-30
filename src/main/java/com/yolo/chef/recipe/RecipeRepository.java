@@ -13,4 +13,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     Optional<Recipe> findById(Integer id);
 
     List<Recipe> findByIdeaId(Integer id);
+    List<Recipe> findByUserIdAndIdeaId(Integer userId, Integer ideaId);
+
+    List<Recipe> findByUserId(Integer userId);
+
+    Optional<Recipe> findByUserIdAndId(Integer userId, Integer recipeId);
+
+    Optional<Recipe> findByUserIdAndIdAndRecipeStatusId(Integer userId, Integer recipeId, Integer recipeStatusId);
+
+    List<Recipe> findByUserIdAndIdeaIdAndRecipeStatusId(Integer userId, Integer ideaId, Integer status);
 }
