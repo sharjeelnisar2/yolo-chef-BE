@@ -31,7 +31,7 @@ spring:
     enabled: true
 api:
   key:
-   ${ApiKey}
+    ${ApiKey}
   GeminiUrl:
     ${GeminiUrl}
 server:
@@ -41,4 +41,3 @@ jwt:
   auth:
     converter:
       principle-attribute: preferred_username
-      resource-id: yolo-chef

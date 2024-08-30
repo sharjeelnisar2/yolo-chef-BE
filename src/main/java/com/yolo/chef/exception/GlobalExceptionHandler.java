@@ -83,6 +83,9 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getDetails());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
-
-
+    @ExceptionHandler(RecipeStatusInvalidException.class)
+    public ResponseEntity<ErrorResponse> handleRecipeStatusInvalidException(RecipeStatusInvalidException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getDetails());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }

@@ -151,5 +151,22 @@ public class IdeaService {
             dietaryRestrictionRepository.save(newRestriction);
         }
     }
+    public String findIdeaTitleById(Integer ideaId) {
+        Optional<Idea> idea=ideaRepository.findById(ideaId);
+        if(idea.isPresent())
+        {
+            return idea.get().getTitle();
+        }
+        return "Idea Title Not Found";
+    }
+
+    public String findIdeaCodeById(Integer ideaId) {
+        Optional<Idea> idea=ideaRepository.findById(ideaId);
+        if(idea.isPresent())
+        {
+            return idea.get().getCode();
+        }
+        return "Idea Code Not Found";
+    }
 }
 
