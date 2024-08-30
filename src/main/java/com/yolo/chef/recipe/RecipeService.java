@@ -93,5 +93,25 @@ public class RecipeService {
 
         return uniqueFileName;
     }
+    public Integer getUserIdFromRecipeCode(String recipeCode)
+    {
+      Recipe recipe=  recipeRepository.findByCode(recipeCode).orElseGet(null);
+      if(recipe !=null)
+      {
+          return  recipe.getUserId();
+      }
+      else
+          return -1;
+    }
+    public Integer getRecipeIdFromRecipeCode(String recipeCode)
+    {
+        Recipe recipe=  recipeRepository.findByCode(recipeCode).orElseGet(null);
+        if(recipe !=null)
+        {
+            return  recipe.getId();
+        }
+        else
+            return -1;
+    }
 
 }

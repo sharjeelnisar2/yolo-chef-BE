@@ -114,5 +114,11 @@ public class UserService {
 
         return false;
     }
+    public Integer getUserIdByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(User::getId)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+    }
+
 
 }

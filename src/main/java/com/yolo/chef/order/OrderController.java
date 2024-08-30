@@ -3,10 +3,18 @@ package com.yolo.chef.order;
 import com.yolo.chef.exception.UnauthorizedException;
 import com.yolo.chef.order.dto.OrderRequest;
 import com.yolo.chef.response.ErrorResponse;
+import com.yolo.chef.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,7 +26,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-
+@Autowired
+private UserService userService;
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest) {
         try {
@@ -34,19 +43,40 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_VIEW_ORDERS')")
-    @GetMapping("/{userId}")
+    @GetMapping
     public ResponseEntity<?> getOrdersByChefId(
-            @PathVariable Integer userId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "100") int size,
-            @RequestParam(required = false) String orderStatus,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) String search) {
+            @RequestParam(value = "order_status", required = false) Integer orderStatusId,
+            @RequestParam(value = "min_price", required = false) Long minPrice,
+            @RequestParam(value = "max_price", required = false) Long maxPrice,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
+        Pageable pageable = PageRequest.of(page, size);
         try {
-            Map<String, Object> orders = orderService.getOrdersByChefId(userId, page, size, orderStatus, minPrice, maxPrice, search);
-            return ResponseEntity.ok(orders);
+            SecurityContext context = SecurityContextHolder.getContext();
+            Authentication authentication = context.getAuthentication();
+
+            if (authentication != null) {
+                if (authentication instanceof JwtAuthenticationToken) {
+                    JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;
+                    Jwt jwt = (Jwt) jwtAuth.getPrincipal();
+                    // Extract specific claims from the Jwt
+                    String username = jwt.getClaim("preferred_username"); // Adjust based on your JWT structure
+                    Integer userId= userService.getUserIdByUsername(username);
+
+                    Map<String, Object> orders = orderService.getOrdersByChefId(userId, orderStatusId, minPrice, maxPrice, search, pageable);
+                    return ResponseEntity.ok(orders);
+                } else{
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("no user exist", "Unauthorized access"));
+                }
+
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("no user exist", "Unauthorized access"));
+            }
+
+
         } catch (UnauthorizedException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage(), "Unauthorized access"));
         } catch (Exception e) {

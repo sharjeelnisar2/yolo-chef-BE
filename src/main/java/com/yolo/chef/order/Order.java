@@ -19,6 +19,8 @@ public class Order {
 
     @Column(name = "customer_contact_number")
     private String customerContactNumber;
+    @Column(name = "customer_name")
+    private String customerName;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
@@ -27,4 +29,6 @@ public class Order {
     private Integer orderStatusId;
     @Column(name = "address_id")
     private Integer addressId;
+    @Column(name = "chef_id")
+    private Integer chefId;
 }

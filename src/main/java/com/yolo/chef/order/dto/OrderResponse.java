@@ -10,6 +10,7 @@ public class OrderResponse {
     private Integer order_id;
     private Long total_price;
     private String customer_name;
+    private String customer_contact_number;
     private String status;
     private LocalDateTime created_at;
 
@@ -17,10 +18,11 @@ public class OrderResponse {
         // Default constructor
     }
 
-    public OrderResponse(Integer order_id, Long total_price, String customer_name, String status, LocalDateTime created_at) {
+    public OrderResponse(Integer order_id, Long total_price, String customer_name,String customer_contact_number, String status, LocalDateTime created_at) {
         this.order_id = order_id;
         this.total_price = total_price;
         this.customer_name = customer_name;
+        this.customer_contact_number = customer_contact_number;
         this.status = status;
         this.created_at = created_at;
     }

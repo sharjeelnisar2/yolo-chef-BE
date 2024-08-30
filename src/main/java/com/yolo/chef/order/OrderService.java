@@ -8,6 +8,8 @@ import com.yolo.chef.order.dto.OrderRequest;
 import com.yolo.chef.order.dto.OrderResponse;
 import com.yolo.chef.orderItem.OrderItem;
 import com.yolo.chef.orderItem.OrderItemRepository;
+import com.yolo.chef.orderStatus.OrderStatusService;
+import com.yolo.chef.recipe.RecipeService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,14 +35,18 @@ public class OrderService {
 
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private OrderStatusService orderStatusService;
 
+    @Autowired
+    private RecipeService recipeService;
     @Transactional
     public void saveOrder(OrderRequest.OrderDTO orderDTO) {
         Address address = new Address();
         address.setHouse(orderDTO.getAddress().getHouse());
         address.setStreet(orderDTO.getAddress().getStreet());
         address.setArea(orderDTO.getAddress().getArea());
-        address.setZip_code(orderDTO.getAddress().getZipCode());
+        address.setZip_code(orderDTO.getAddress().getZip_code());
         address.setCity(orderDTO.getAddress().getCity());
         address.setCountry(orderDTO.getAddress().getCountry());
         address.setCreatedAt(LocalDateTime.now());
@@ -48,20 +54,22 @@ public class OrderService {
         Address savedAddress = addressRepository.save(address);
 
         Order order = new Order();
-        order.setPrice(orderDTO.getTotalPrice());
-        order.setCode(orderDTO.getOrderCode());
-        order.setCustomerContactNumber(orderDTO.getCustomerContactNumber());
+        order.setPrice(orderDTO.getTotal_price());
+        order.setCode(orderDTO.getOrder_code());
+        order.setCustomerContactNumber(orderDTO.getCustomer_contact_number());
+        order.setCustomerName(orderDTO.getCustomer_name());
         order.setCreatedAt(LocalDateTime.now());
         order.setUpdatedAt(LocalDateTime.now());
         order.setAddressId(savedAddress.getId());
         order.setOrderStatusId(1);
+        order.setChefId(getChefIdFromCode(orderDTO.getOrder_items().get(0).getRecipe_code()));
         Order savedOrder = orderRepository.save(order);
 
-        for (OrderRequest.OrderItemDTO itemDTO : orderDTO.getOrderItems()) {
+        for (OrderRequest.OrderItemDTO itemDTO : orderDTO.getOrder_items()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(itemDTO.getQuantity());
             orderItem.setPrice(itemDTO.getPrice());
-            orderItem.setRecipeId(getRecipeIdFromCode(itemDTO.getRecipeCode()));
+            orderItem.setRecipeId(getRecipeIdFromCode(itemDTO.getRecipe_code()));
             orderItem.setOrderId(savedOrder.getId());
             orderItem.setCreatedAt(LocalDateTime.now());
             orderItemRepository.save(orderItem);
@@ -69,31 +77,34 @@ public class OrderService {
     }
 
 
-    public Map<String, Object> getOrdersByChefId(Integer userId, int page, int size, String orderStatus, Double minPrice, Double maxPrice, String search) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Object[]> ordersPage = orderRepository.findOrdersByChefId(userId, orderStatus, minPrice, maxPrice, search, pageable);
+public Map<String, Object> getOrdersByChefId(
+        Integer chefId, Integer orderStatusId, Long minPrice, Long maxPrice,
+        String search, Pageable pageable) {
 
-        // Map raw data to OrderResponse DTOs
-        List<OrderResponse> orderResponses = ordersPage.getContent().stream().map(objects -> {
-            OrderResponse orderResponse = new OrderResponse();
-            orderResponse.setOrder_id((Integer) objects[0]);
-            orderResponse.setTotal_price((Long) objects[1]);
-            orderResponse.setCustomer_name((String) objects[3]);
-            orderResponse.setStatus((String) objects[4]);
-            orderResponse.setCreated_at(((Timestamp) objects[5]).toLocalDateTime());
-            return orderResponse;
-        }).collect(Collectors.toList());
+    Page<Order> orders = orderRepository.findByChefIdAndOrderStatusIdAndPriceBetweenAndCustomerContactNumberContainingOrCodeContaining(
+            chefId, orderStatusId, minPrice != null ? minPrice : Long.MIN_VALUE, maxPrice != null ? maxPrice : Long.MAX_VALUE,
+            search != null ? search : "", search != null ? search : "", pageable);
 
+    List<OrderResponse> orderResponses = orders.stream()
+            .map(order -> new OrderResponse(
+                    order.getId(),
+                    order.getPrice(),
+                    order.getCustomerName(),
+                    order.getCustomerContactNumber(),
+                    orderStatusService.getStatusByOrderId(order.getOrderStatusId()), // Assuming getStatusById returns a status description
+                    order.getCreatedAt()
+            ))
+            .collect(Collectors.toList());
 
-        // Format the response
+    // Format the response
         return Map.of(
-                "current_page", ordersPage.getNumber() + 1,
-                "page_size", ordersPage.getSize(),
-                "total_items", ordersPage.getTotalElements(),
-                "total_pages", ordersPage.getTotalPages(),
+                "current_page", orders.getNumber() + 1,
+                "page_size", orders.getSize(),
+                "total_items", orders.getTotalElements(),
+                "total_pages", orders.getTotalPages(),
                 "orders", orderResponses
         );
-    }
+}
 
     public OrderDetailsResponse getOrderDetails(Integer orderId) {
         List<Object[]> results = orderRepository.findOrderDetailsById(orderId);
@@ -124,17 +135,16 @@ public class OrderService {
         addressDTO.setZip_code((String) firstResult[8]);
         addressDTO.setCity((String) firstResult[9]);
         addressDTO.setCountry((String) firstResult[10]);
-        // Set the AddressDTO in the OrderDTO
         orderDTO.setAddress(addressDTO);
 
         // Map the OrderItemDTOs
         List<OrderDetailsResponse.OrderItemDTO> orderItems = new ArrayList<>();
         for (Object[] result : results) {
             OrderDetailsResponse.OrderItemDTO orderItemDTO = new OrderDetailsResponse.OrderItemDTO();
-            orderItemDTO.setRecipe_name((String) result[11]); // Assuming index 11 corresponds to recipe_name
-            orderItemDTO.setQuantity((Long) result[12]); // Assuming index 12 corresponds to quantity
-            orderItemDTO.setPrice((Long) result[13]); // Assuming index 13 corresponds to price
-            orderItemDTO.setServing_size((Integer) result[14]); // Assuming index 14 corresponds to serving_size
+            orderItemDTO.setRecipe_name((String) result[11]);
+            orderItemDTO.setQuantity((Long) result[12]);
+            orderItemDTO.setPrice((Long) result[13]);
+            orderItemDTO.setServing_size((Integer) result[14]);
 
             orderItems.add(orderItemDTO);
         }
@@ -147,6 +157,17 @@ public class OrderService {
 
     // Mock method for getting recipe ID from code
     private Integer getRecipeIdFromCode(String recipeCode) {
-        return 1; // Example
+       int id= recipeService.getRecipeIdFromRecipeCode(recipeCode);
+       if(id==-1) {
+           throw new RuntimeException("code is wrong");
+       }
+       return id;
+    }
+    private Integer getChefIdFromCode(String recipeCode) {
+        int id= recipeService.getUserIdFromRecipeCode(recipeCode);
+        if(id==-1) {
+            throw new RuntimeException("code is wrong");
+        }
+        return id;
     }
 }

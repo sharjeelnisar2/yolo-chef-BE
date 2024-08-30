@@ -12,12 +12,13 @@ public class OrderRequest {
     @Getter
     @Setter
     public static class OrderDTO {
-        private Long totalPrice;
-        private String currencyCode;
-        private String orderCode;
-        private String customerContactNumber;
+        private Long total_price;
+        private String currency_code;
+        private String order_code;
+        private String customer_contact_number;
+        private String customer_name;
         private AddressDTO address;
-        private List<OrderItemDTO> orderItems;
+        private List<OrderItemDTO> order_items;
     }
 
     @Getter
@@ -26,7 +27,7 @@ public class OrderRequest {
         private String house;
         private String street;
         private String area;
-        private String zipCode;
+        private String zip_code;
         private String city;
         private String country;
     }
@@ -36,7 +37,7 @@ public class OrderRequest {
     public static class OrderItemDTO {
         private Long quantity;
         private Long price;
-        private String recipeCode;
+        private String recipe_code;
     }
 }
 
