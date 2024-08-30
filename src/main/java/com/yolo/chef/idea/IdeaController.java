@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/ideas")
 
-
+@CrossOrigin
 public class IdeaController {
     @Autowired
     private IdeaService ideaService;
