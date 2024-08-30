@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AIAssistantService {
 
-    @Value("${api.key}")
+   // @Value("${api.key}")
     private String apiKey;
 
-    @Value("${api.GeminiUrl}")
+  //  @Value("${api.GeminiUrl}")
     private String geminiUrl;
 
     private final RestTemplate restTemplate;
