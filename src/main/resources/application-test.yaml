@@ -1,16 +1,18 @@
 spring:
+  application:
+    name: chef
   datasource:
-    url: jdbc:mysql://localhost:3306/Yolo_Chef
-    username: root
-    password: 123456
+    url: ${DB_TEST_URL}
+    username: ${DB_TEST_USERNAME}
+    password: ${DB_TEST_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: none
-    open-in-view: false
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQLDialect
 
   liquibase:
-    enabled: true
-    drop-first: false
     change-log: classpath:/db/changelog/db.changelog-master.yaml
-    default-schema: public
+    enabled: true

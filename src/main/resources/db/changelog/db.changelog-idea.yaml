@@ -67,5 +67,26 @@ databaseChangeLog:
               - column:
                   name: created_at
                   value: '2000-01-01T12:00:00'
+        - insert:
+            tableName: idea
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: customer_name
+                  value: Ahmad
+              - column:
+                  name: title
+                  value: Chinese Rice
+              - column:
+                  name: description
+                  value: Chinese Rice Idea Description
+              - column:
+                  name: code
+                  value: 123
+              - column:
+                  name: created_at
+                  value: '2000-01-01T12:00:00'
 
 

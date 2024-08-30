@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserInvalidException extends RuntimeException {
+public class RecipeStatusInvalidException extends RuntimeException {
     private String details;
-    public UserInvalidException(String message, String details) {
+    public RecipeStatusInvalidException(String message, String details) {
         super(message);
         this.details=details;
     }

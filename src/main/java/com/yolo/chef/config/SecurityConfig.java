@@ -32,11 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(config -> config
-                        .requestMatchers("/swagger-ui/**", " /v3/api-docs", "/v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
-
-                )
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
 
