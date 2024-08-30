@@ -3,11 +3,13 @@ package com.yolo.chef.idea;
 import com.yolo.chef.dto.IdeaDetailResponse;
 import com.yolo.chef.dto.IdeaGetResponse;
 import com.yolo.chef.dto.IdeaPostRequest;
+import com.yolo.chef.exception.NotFoundException;
 import com.yolo.chef.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,7 +26,7 @@ public class IdeaController {
     @Autowired
     private IdeaService ideaService;
 
-
+    @PreAuthorize("hasRole('ROLE_VIEW_IDEA_DETAIL')")
     @GetMapping("/{idea_id}")
     public ResponseEntity<?> findById(@PathVariable Integer idea_id) {
         try {
@@ -35,6 +37,16 @@ public class IdeaController {
             response.put("message", "Bad Request");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch (UnauthorizedException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Unauthorized access");
+            response.put("details", e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        } catch(NotFoundException e){
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Not Found");
+            response.put("details", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Internal server error");
@@ -43,6 +55,8 @@ public class IdeaController {
         }
 
     }
+    @PreAuthorize("hasRole('ROLE_VIEW_IDEAS')")
+
 
     @GetMapping
     public ResponseEntity<?> getAllIdeas(@RequestParam(required = false) String title ,@RequestParam(name = "page", defaultValue = "0") Integer page,
@@ -55,7 +69,18 @@ public class IdeaController {
             response.put("message", "Bad Request");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } catch (Exception e) {
+        } catch (UnauthorizedException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Unauthorized access");
+            response.put("details", e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        }catch(NotFoundException e){
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Not Found");
+            response.put("details", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        catch (Exception e) {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Internal server error");
             response.put("details", e.getMessage());
@@ -63,6 +88,7 @@ public class IdeaController {
         }
 
     }
+    @PreAuthorize("hasRole('ROLE_VIEW_IDEAS')")
 
     @PostMapping
     public ResponseEntity<Map<String, String>> createIdea(@RequestBody IdeaPostRequest request) {

@@ -85,7 +85,13 @@ public class IdeaService {
         Page<Idea> ideasPage;
 
         if (title.isPresent()) {
-            ideasPage = ideaRepository.findByTitle(title.get(), PageRequest.of(page, size));
+            Optional<Page<Idea>> Page = ideaRepository.findByTitle(title.get(), PageRequest.of(page, size));
+            if(Page.isPresent()){
+               ideasPage=Page.get();
+            }
+            else{
+                throw new NotFoundException("Idea not found", "The idea with the provided title does not exist.");
+            }
         } else {
             ideasPage = ideaRepository.findAll(PageRequest.of(page, size));
         }

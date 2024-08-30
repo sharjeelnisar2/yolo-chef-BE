@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface IdeaRepository extends JpaRepository<Idea, Integer> {
 
-    Page<Idea> findByTitle(String title, Pageable pageable);
+    Optional<Page<Idea>> findByTitle(String title, Pageable pageable);
 
 }
