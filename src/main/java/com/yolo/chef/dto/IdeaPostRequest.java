@@ -1,5 +1,6 @@
 package com.yolo.chef.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yolo.chef.dietaryRestriction.DietaryRestriction;
 import com.yolo.chef.interest.Interest;
 import lombok.AllArgsConstructor;
@@ -18,11 +19,14 @@ public class IdeaPostRequest {
     @Getter
     @Setter
     public static class Idea {
+        @JsonProperty("customer_name")
         private String customerName;
         private String title;
         private String description;
+        @JsonProperty("idea_code")
         private String ideaCode;
         private List<String> interests;
+        @JsonProperty("dietry_restrictions")
         private List<String> dietaryRestrictions;
 
     }

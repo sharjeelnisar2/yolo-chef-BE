@@ -94,8 +94,12 @@ public class IdeaController {
     public ResponseEntity<Map<String, String>> createIdea(@RequestBody IdeaPostRequest request) {
         Map<String, String> response = new HashMap<>();
         try {
-            System.out.println("req  "+request.getIdea().getCustomerName());
-            System.out.println("req  "+request.getIdea().getDescription());
+            System.out.println("req  "+request.getIdea());
+            System.out.println("NAME  "+request.getIdea().getCustomerName());
+            System.out.println("des  "+request.getIdea().getDescription());
+            System.out.println("code  "+request.getIdea().getIdeaCode());
+            System.out.println("int  "+request.getIdea().getInterests());
+            System.out.println("des  "+request.getIdea().getDietaryRestrictions());
 
             ideaService.createIdea(request);
             response.put("message", "Idea submitted successfully");

@@ -14,6 +14,7 @@ public class OrderStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String code;
+    @Column(name = "\"value\"")
     private String value;
     @Column(name = "is_active")
     private Boolean isActive;

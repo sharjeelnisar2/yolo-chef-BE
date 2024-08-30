@@ -130,14 +130,12 @@ public class IdeaService {
         idea.setCustomerName(ideaRequest.getCustomerName());
         idea.setTitle(ideaRequest.getTitle());
         idea.setDescription(ideaRequest.getDescription());
-        System.out.println("Code "+ideaRequest.getIdeaCode());
         idea.setCode(ideaRequest.getIdeaCode());
-        System.out.println("Code "+idea.getCode());
 
         idea.setCreatedAt(LocalDateTime.now());
         ideaRepository.save(idea);
 
-        // Save interests
+
         for (String interest : ideaRequest.getInterests()) {
             Interest newInterest = new Interest();
             newInterest.setDescription(interest);

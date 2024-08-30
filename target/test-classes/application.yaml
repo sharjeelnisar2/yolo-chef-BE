@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: chef
+  datasource:
+    url: jdbc:h2:mem:testdb567  # Use an in-memory database for testing
+    username: sa
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Create and drop the schema for each test
+    open-in-view: false
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    enabled: true
+
+jwt:
+  auth:
+    converter:
+      principle-attribute: preferred_username
+      resource-id: yolo-chef
+
+# Uncomment and configure if using OAuth2 resource server
+# security:
+#   oauth2:
+#     resourceserver:
+#       jwt:
+#         issuer-uri: ${JwtIssuerURI}
+#         jwk-set-uri: ${JwtSetURI}
