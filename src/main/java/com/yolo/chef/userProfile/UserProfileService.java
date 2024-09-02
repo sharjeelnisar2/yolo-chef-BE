@@ -31,51 +31,47 @@ public class UserProfileService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseEntity<Map<String, String>> createUserProfile(String username,CreateUserProfileRequest userProfileRq) {
+    public ResponseEntity<Map<String, String>> createUserProfile(String username, CreateUserProfileRequest userProfileRq) {
         Map<String, String> response = new HashMap<>();
         try {
-            Optional<User> OptinalUser=userRepository.findByUsername(username);
-            try{
-                if (OptinalUser.isPresent()) {
-                    User user = OptinalUser.get();
-                    
-                    Address address = new Address();
-                    address.setHouse(userProfileRq.getHouse());
-                    address.setStreet(userProfileRq.getStreet());
-                    address.setArea(userProfileRq.getArea());
-                    address.setZip_code(userProfileRq.getZipCode());
-                    address.setCity(userProfileRq.getCity());
-                    address.setCountry(userProfileRq.getCountry());
-                    address.setCreatedAt(LocalDateTime.now());
-                    address.setUpdatedAt(LocalDateTime.now());
-                    addressRepository.save(address);
+            Optional<User> optionalUser = userRepository.findByUsername(username);
 
-                    UserProfile userProfile = new UserProfile();
-                    userProfile.setFirstName(userProfileRq.getFirstName());
-                    userProfile.setLastName(userProfileRq.getLastName());
-                    userProfile.setContactNumber(userProfileRq.getContactNumber());
-                    userProfile.setCreatedAt(LocalDateTime.now());
-                    userProfile.setUpdatedAt(LocalDateTime.now());
-                    userProfile.setAddressId(address.getId());
-                    userProfile.setUserId(user.getId());
-                    userProfile.setCurrencyId(1);
-                    userProfileRepository.save(userProfile);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
 
-                    response.put("message", "User profile created successfully");
-                    return ResponseEntity.status(HttpStatus.CREATED).body(response);
-                }
-            }catch(NotFoundException e){
+                Address address = new Address();
+                address.setHouse(userProfileRq.getHouse());
+                address.setStreet(userProfileRq.getStreet());
+                address.setArea(userProfileRq.getArea());
+                address.setZip_code(userProfileRq.getZipCode());
+                address.setCity(userProfileRq.getCity());
+                address.setCountry(userProfileRq.getCountry());
+                address.setCreatedAt(LocalDateTime.now());
+                address.setUpdatedAt(LocalDateTime.now());
+                addressRepository.save(address);
+
+                UserProfile userProfile = new UserProfile();
+                userProfile.setFirstName(userProfileRq.getFirstName());
+                userProfile.setLastName(userProfileRq.getLastName());
+                userProfile.setContactNumber(userProfileRq.getContactNumber());
+                userProfile.setCreatedAt(LocalDateTime.now());
+                userProfile.setUpdatedAt(LocalDateTime.now());
+                userProfile.setAddressId(address.getId());
+                userProfile.setUserId(user.getId());
+                userProfile.setCurrencyId(1);
+                userProfileRepository.save(userProfile);
+
+                response.put("message", "User profile created successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            } else {
                 response.put("message", "User not found");
-                response.put("details", e.getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-
             response.put("message", "An error occurred while creating the user profile");
             response.put("details", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-        return null;
     }
 
 }
