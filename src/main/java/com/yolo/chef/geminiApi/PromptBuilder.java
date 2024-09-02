@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @AllArgsConstructor
 public class PromptBuilder {
     public String buildPrompt(AIRequest aiRequest) {
-        return "create me a recipe for idea created by customer that has idea title"
-                +aiRequest.getAITitle()+"and idea descroiption "+
-                aiRequest.getAIDescription()+"and customer tell me that his intrest are "+
+        return "create recipe for idea having title"
+                +aiRequest.getAITitle()+"and idea description "+
+                aiRequest.getAIDescription()+"and customer interest are "+
                 aiRequest.getAIIntrests()+"and his DietaryRestrictions are"+
                 aiRequest.getAIDietaryRestrictions()+"so give me a json string form that has RecipeName that suggest me the recipe name(max length is 32) ,RecipeDescription that has recipe how to make recipe and ServingSize that is its serving size(a number) also note that the response should not have extra info like written like "+
                 "{RecipeName: Cheesy Butterfly Birthday Cake," +
