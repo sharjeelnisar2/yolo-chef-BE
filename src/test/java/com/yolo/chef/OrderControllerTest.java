@@ -10,6 +10,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +22,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @SpringBootTest
 @AutoConfigureMockMvc
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
 public class OrderControllerTest {
 
@@ -49,15 +51,7 @@ public class OrderControllerTest {
     private OrderRequest orderRequest;
     private Order order;
 
-    @BeforeEach
-    void setUp() {
-        order = new Order();
-        order.setId(1);
-        order.setPrice(100L);
-        order.setCustomerName("John Doe");
 
-        orderRequest = new OrderRequest();
-    }
 
     @Test
     @WithMockUser(roles = "USER")
@@ -71,6 +65,7 @@ public class OrderControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderJson))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\"message\":\"Order submitted successfully\"}"));
     }
@@ -175,14 +170,13 @@ public class OrderControllerTest {
 //                .andExpect(content().json("{ \"current_page\": 1, \"page_size\": 10, \"total_items\": 100, \"total_pages\": 10 }"));
 //    }
 //
-//    @Test
-//    @WithMockUser(authorities = "ROLE_VIEW_ORDER_DETAIL")
-//    void testGetOrderDetails() throws Exception {
-//        when(orderService.getOrderDetails(any(Integer.class))).thenReturn(order);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/orders/detail/1"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("{\"order_id\": 1, \"price\": 100, \"customer_name\": \"John Doe\"}"));
-//    }
+    @Test
+    @WithMockUser(username = "user", authorities = "ROLE_VIEW_ORDER_DETAIL")
+    void testGetOrderDetails() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/orders/1"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
+    }
 }
 
