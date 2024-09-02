@@ -33,6 +33,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -113,7 +114,7 @@ public class RecipeService {
     }
 
     public String saveImageToStorage(MultipartFile imageFile) {
-        String uploadDirectory = "C://Users/esha.ashfaq/Desktop/RecipeImages";
+        String uploadDirectory = "C://Users/muhammad.daud.rizvi/Desktop/RecipeImages";
 
         // Get the last recipe number from the database
         String lastImagePath = recipeImageRepository.findLastRecordById()
@@ -221,10 +222,32 @@ public class RecipeService {
 
     }
 
+//    public RecipeListResponse getAllRecipesByChef(Integer ideaId, String status, String sortOrder) {
+//        List<Recipe> recipes;
+//        String username= LoggedinUser.getUserName();
+//        Optional<User> user=userRepository.findByUsername(username);
+//        if (status != null) {
+//            Integer statusId = recipeStatusService.findStatusIdByName(status);
+//            recipes = recipeRepository.findByUserIdAndIdeaIdAndRecipeStatusId(user.get().getId(), ideaId, statusId);
+//        } else {
+//            recipes = recipeRepository.findByUserIdAndIdeaId(user.get().getId(), ideaId);
+//        }
+//
+//        if ("desc".equalsIgnoreCase(sortOrder)) {
+//            recipes.sort((r1, r2) -> r2.getCreatedAt().compareTo(r1.getCreatedAt()));
+//        } else {
+//            recipes.sort((r1, r2) -> r1.getCreatedAt().compareTo(r2.getCreatedAt()));
+//        }
+//
+//        return new RecipeListResponse(recipes, ideaService, recipeImageService, recipeStatusService);
+//    }
+
     public RecipeListResponse getAllRecipesByChef(Integer ideaId, String status, String sortOrder) {
         List<Recipe> recipes;
-        String username= LoggedinUser.getUserName();
-        Optional<User> user=userRepository.findByUsername(username);
+        String username = LoggedinUser.getUserName();
+        Optional<User> user = userRepository.findByUsername(username);
+
+        // Fetch the recipes based on the provided status and ideaId
         if (status != null) {
             Integer statusId = recipeStatusService.findStatusIdByName(status);
             recipes = recipeRepository.findByUserIdAndIdeaIdAndRecipeStatusId(user.get().getId(), ideaId, statusId);
@@ -232,14 +255,24 @@ public class RecipeService {
             recipes = recipeRepository.findByUserIdAndIdeaId(user.get().getId(), ideaId);
         }
 
+        // Assuming you have a method to get the archived status ID
+        Integer archivedStatusId = recipeStatusService.findStatusIdByName("Archived");
+
+        // Filter out archived recipes
+        recipes = recipes.stream()
+                .filter(recipe -> !recipe.getRecipeStatusId().equals(archivedStatusId))
+                .collect(Collectors.toList());
+
+        // Sort recipes based on the provided sortOrder
         if ("desc".equalsIgnoreCase(sortOrder)) {
             recipes.sort((r1, r2) -> r2.getCreatedAt().compareTo(r1.getCreatedAt()));
         } else {
             recipes.sort((r1, r2) -> r1.getCreatedAt().compareTo(r2.getCreatedAt()));
         }
 
-        return new RecipeListResponse(recipes, ideaService, recipeImageService);
+        return new RecipeListResponse(recipes, ideaService, recipeImageService, recipeStatusService);
     }
+
 
 
     public RecipeDetailsResponseWrapper getRecipeDetailsByRecipeId(Integer recipeId)
