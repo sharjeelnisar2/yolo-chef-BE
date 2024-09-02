@@ -54,6 +54,13 @@ public class RecipeService {
         }
         return code.toString();
     }
+
+    public Integer getRecipeCount(Integer ID)
+    {
+        List<Recipe> recipesList=recipeRepository.findByIdeaId(ID);
+        Integer recipeCount=recipesList.size();
+        return recipeCount;
+    }
     public Recipe createRecipe(RecipeRequest recipeRequest,Integer ideaId)
     {
         if (recipeRequest.getPrice().compareTo(BigInteger.ZERO) <= 0) {
@@ -82,7 +89,6 @@ public class RecipeService {
         recipe.setServingSize(recipeRequest.getServing_size());
         recipe.setCreatedAt(LocalDateTime.now());
         recipe.setUpdatedAt(LocalDateTime.now());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         Optional<User> user= userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         recipe.setUserId(user.get().getId());
@@ -114,23 +120,39 @@ public class RecipeService {
                 .map(RecipeImage::getUrl) // Use getUrl to get the URL field
                 .orElse(null); // Return null if no record is found
 
-        int lastRecipeNumber = 0;
+        int extractedNumber = 0;
 
         if (lastImagePath != null) {
-            // Extract the number from the last image path (e.g., "Recipe3" -> 3)
-            String lastRecipeStr = lastImagePath.replaceAll("[^0-9]", "");
-            lastRecipeNumber = Integer.parseInt(lastRecipeStr);
+            int firstDashIndex = lastImagePath.lastIndexOf("Recipe-") + 7;
+
+            // Find the next '-' after the firstDashIndex
+            int nextDashIndex = lastImagePath.indexOf('-', firstDashIndex);
+
+            // Extract the substring between the first '-' and the next '-'
+            String extractedNumber1 = lastImagePath.substring(firstDashIndex, nextDashIndex);
+
+
+            extractedNumber = Integer.parseInt(extractedNumber1);
         }
 
         // Increment the recipe number, starting at 1 if no record exists
-        int nextRecipeNumber = lastRecipeNumber + 1;
+        int nextRecipeNumber = extractedNumber + 1;
 
         // Extract the file extension from the original filename
         String originalFilename = imageFile.getOriginalFilename();
         String fileExtension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf('.')) : "";
 
+        String fileNameWithoutExtension="";
+        if (originalFilename != null) {
+            int lastDotIndex = originalFilename.lastIndexOf('.');
+            if (lastDotIndex > 0) { // Ensure there's at least one character before the dot
+                fileNameWithoutExtension = originalFilename.substring(0, lastDotIndex);
+            } else {
+                fileNameWithoutExtension = originalFilename; // No extension found
+            }
+        }
         // Generate the new filename with the recipe number and file extension
-        String nextRecipeFilename = "Recipe" + nextRecipeNumber + fileExtension;
+        String nextRecipeFilename = "Recipe-" + nextRecipeNumber +"-"+ fileNameWithoutExtension+fileExtension;
 
         Path uploadPath = Path.of(uploadDirectory);
         Path filePath = uploadPath.resolve(nextRecipeFilename);
@@ -149,7 +171,6 @@ public class RecipeService {
     }
 
     public Optional<Recipe> updateRecipe(RecipeRequest recipeRequest,Integer recipeId) {
-        System.out.println(recipeId);
         if (recipeRequest.getPrice().compareTo(BigInteger.ZERO) <= 0) {
             throw new BadRequestException(
                     "Invalid price provided.",
@@ -165,19 +186,31 @@ public class RecipeService {
         Optional<Recipe> existing=recipeRepository.findById(recipeId);
         if (existing.isPresent()) {
             Recipe recipe=existing.get();
-            if(recipeRequest.getName()!= null && !recipeRequest.getName().isEmpty())
+            System.out.println(recipe.getPrice());
+            System.out.println(recipeRequest.getPrice());
+            if(!recipeRequest.getName().equalsIgnoreCase(recipe.getName()))
             {
+                System.out.println("Updated Name");
                 recipe.setName(recipeRequest.getName());
             }
-            if (recipeRequest.getDescription() != null && !recipeRequest.getDescription().isEmpty()) {
+            //!= null && !recipeRequest.getDescription().isEmpty()
+            if (!recipeRequest.getDescription() .equalsIgnoreCase(recipe.getDescription())) {
+                System.out.println("Updated Description");
                 recipe.setDescription(recipeRequest.getDescription());
             }
-            if (recipeRequest.getPrice() != null) {
-                recipe.setPrice(recipeRequest.getPrice());
+            if (!recipeRequest.getPrice() .equals(recipe.getPrice())) {
+                System.out.println("Updated Price");
+                recipe.setPrice(recipeRequest.getPrice().multiply(BigInteger.valueOf(100)));
             }
-            if (recipeRequest.getServing_size() != null) {
+            if (!recipeRequest.getServing_size().equals(recipe.getServingSize())) {
+                System.out.println("Updated ServingSize");
                 recipe.setServingSize(recipeRequest.getServing_size());
             }
+            List<String> storedImages=recipeImageService.getAllUrlAgainstId(recipe.getId());
+//           for(int i=0;i<recipeRequest.getImages().length;i++)
+//           {
+//
+//           }
             recipe.setUpdatedAt(LocalDateTime.now());
             recipeRepository.save(recipe);
             return Optional.of(recipe);

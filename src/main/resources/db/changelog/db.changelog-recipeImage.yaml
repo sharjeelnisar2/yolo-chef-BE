@@ -15,7 +15,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: url
-                  type: varchar(128)
+                  type: varchar(264)
                   constraints:
                     nullable: false
               - column:

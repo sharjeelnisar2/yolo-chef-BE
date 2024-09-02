@@ -26,7 +26,7 @@ public class UserProfileController {
     @PostMapping("/{username}/userProfiles")
     @PreAuthorize("hasAnyAuthority('ROLE_CREATE_USER_PROFILE')")
     public ResponseEntity<Map<String, String>> createUserProfile(@PathVariable String username, @RequestBody CreateUserProfileRequest userProfileRq) {
-            ResponseEntity<Map<String, String>> response = userProfileService.createUserProfile(username, userProfileRq);
-            return response;
+        ResponseEntity<Map<String, String>> response = userProfileService.createUserProfile(username, userProfileRq);
+        return response;
     }
 }

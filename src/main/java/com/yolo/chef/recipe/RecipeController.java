@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,9 +32,12 @@ public class RecipeController {
 
         try {
             Recipe recipe = recipeService.createRecipe(recipeRequest, IdeaId);
+
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Recipe created successfully");
             response.put("id",recipe.getId());
+
+            response.put("count",  recipeService.getRecipeCount(recipe.getIdeaId()));
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (BadRequestException e) {
 
@@ -52,7 +56,7 @@ public class RecipeController {
         }
     }
    @PreAuthorize("hasAnyAuthority('ROLE_UPDATE_RECIPE')")
-    @PatchMapping("/recipes/{recipeId}")
+    @PostMapping("/recipes/{recipeId}")
     public ResponseEntity<?> updateRecipe(@ModelAttribute RecipeRequest recipeRequest,
                                           @PathVariable("recipeId") Integer recipeId) {
 
