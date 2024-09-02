@@ -15,4 +15,7 @@ public interface RecipeImageRepository extends JpaRepository<RecipeImage, Intege
 
     @Query("SELECT ri.url FROM recipe_image ri WHERE ri.recipeId = :recipeId")
     List<String> findAllUrlsByRecipeId(Integer recipeId);
+
+@Query("SELECT id FROM recipe_image WHERE url = :url")
+Optional<RecipeImage> getIdByUrl(String url);
 }

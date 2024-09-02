@@ -186,8 +186,6 @@ public class RecipeService {
         Optional<Recipe> existing=recipeRepository.findById(recipeId);
         if (existing.isPresent()) {
             Recipe recipe=existing.get();
-            System.out.println(recipe.getPrice());
-            System.out.println(recipeRequest.getPrice());
             if(!recipeRequest.getName().equalsIgnoreCase(recipe.getName()))
             {
                 System.out.println("Updated Name");
@@ -206,11 +204,36 @@ public class RecipeService {
                 System.out.println("Updated ServingSize");
                 recipe.setServingSize(recipeRequest.getServing_size());
             }
-            List<String> storedImages=recipeImageService.getAllUrlAgainstId(recipe.getId());
-//           for(int i=0;i<recipeRequest.getImages().length;i++)
-//           {
-//
-//           }
+            List<String> storedImagesFromDB=recipeImageService.getAllUrlAgainstId(recipe.getId());
+            List<String > imagesName=new ArrayList<>();
+            for (String url : storedImagesFromDB) {
+                int lastDashIndex = url.lastIndexOf('-');
+
+                // Extract the substring after the last '-'
+                String extractedWord = url.substring(lastDashIndex + 1);
+                imagesName.add(extractedWord);
+            }
+            for(int i=0;i<recipeRequest.getImages().length;i++)
+            {
+                String originalFilename = recipeRequest.getImages()[i].getOriginalFilename();
+
+                if (imagesName.contains(originalFilename)) {
+                    imagesName.remove(originalFilename);
+
+                }
+                else {imagesName.remove(originalFilename);
+                    RecipeImage recipeImage=new RecipeImage();
+
+                    String url=saveImageToStorage(recipeRequest.getImages()[i]);
+                    recipeImage.setUrl(url);
+                    recipeImage.setCreatedAt(LocalDateTime.now());
+                    recipeImage.setUpdatedAt(LocalDateTime.now());
+                    recipeImage.setRecipeId(recipe.getId());
+                    recipeImageRepository.save(recipeImage)  ;
+                }
+            }
+            deleteUrl(storedImagesFromDB,imagesName);
+            System.out.println(imagesName);
             recipe.setUpdatedAt(LocalDateTime.now());
             recipeRepository.save(recipe);
             return Optional.of(recipe);
@@ -220,7 +243,22 @@ public class RecipeService {
         }
 
     }
+    public void deleteUrl(List<String> completeUrls,List<String> imageNames)
+    {
+        for(int i=0;i<imageNames.size();i++)
+        {
+            for (String url : completeUrls) {
+                int lastDashIndex = url.lastIndexOf('-');
 
+                String extractedWord = url.substring(lastDashIndex + 1);
+                if(extractedWord.equals(imageNames))
+                {
+                    recipeImageService.deleteByUrl(url);
+                }
+            }
+        }
+
+    }
     public RecipeListResponse getAllRecipesByChef(Integer ideaId, String status, String sortOrder) {
         List<Recipe> recipes;
         String username= LoggedinUser.getUserName();

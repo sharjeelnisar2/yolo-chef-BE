@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,17 +19,18 @@ public class RecipeImageService {
 
     public List<String> getAllUrlAgainstId(Integer recipeId) {
         List<String> storedUrls= recipeImageRepository.findAllUrlsByRecipeId(recipeId);
-        List<String > imagesName=new ArrayList<>();
-        for (String url : storedUrls) {
-            int lastDashIndex = url.lastIndexOf('-');
 
-            // Extract the substring after the last '-'
-            String extractedWord = url.substring(lastDashIndex + 1);
-            imagesName.add(extractedWord);
-            System.out.println("URL: " + url);
+        return storedUrls;
+    }
+    public Boolean deleteByUrl(String url)
+    {
+        Optional<RecipeImage> recipeImageOptional=recipeImageRepository.getIdByUrl(url);
+        if(recipeImageOptional.isPresent())
+        {
+
+            recipeImageRepository.delete(recipeImageOptional.get());
+            return true;
         }
-        return imagesName;
-
-
+        return false;
     }
 }
