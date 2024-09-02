@@ -90,6 +90,7 @@ public class RecipeController {
         }
     }
 
+
     @PreAuthorize("hasAnyAuthority('ROLE_VIEW_RECIPES')")
     @GetMapping("/ideas/{idea_id}/recipes")
     public ResponseEntity<RecipeListResponse> getRecipesByIdeaId(
@@ -121,5 +122,6 @@ public class RecipeController {
     public ResponseEntity<Map<String, String>> deleteRecipe(@PathVariable("recipe_id") Integer recipeId ) throws Exception {
         return recipeService.deleteRecipe(recipeId);
     }
+
 
 }
