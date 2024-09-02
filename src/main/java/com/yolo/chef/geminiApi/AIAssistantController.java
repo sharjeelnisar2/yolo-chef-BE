@@ -28,7 +28,6 @@ public class AIAssistantController {
         String requestPayload = String.format("{\"contents\":[{\"parts\":[{\"text\":\"%s\"}]}]}", text);
 
             String aiResponse = aiAssistantService.generateContent(requestPayload);
-            System.out.println(aiResponse);
             // Parse AI response and map to desired format
             try {
                 // Here, we assume aiResponse is a JSON string containing RecipeName, RecipeDescription, and ServingSize

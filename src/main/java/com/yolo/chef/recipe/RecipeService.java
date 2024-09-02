@@ -207,10 +207,10 @@ public class RecipeService {
                 recipe.setServingSize(recipeRequest.getServing_size());
             }
             List<String> storedImages=recipeImageService.getAllUrlAgainstId(recipe.getId());
-System.out.println(storedImages);
-//            for(int i=0;i<recipeRequest.getImages().length;i++)
-//            {
-//            }
+//           for(int i=0;i<recipeRequest.getImages().length;i++)
+//           {
+//
+//           }
             recipe.setUpdatedAt(LocalDateTime.now());
             recipeRepository.save(recipe);
             return Optional.of(recipe);

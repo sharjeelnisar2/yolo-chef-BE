@@ -16,6 +16,3 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false
-  autoconfigure:
-    exclude:
-      - com.my.autoconfigure.filter.OAuth2AuthenticationDetailsFilterAutoConfiguration
