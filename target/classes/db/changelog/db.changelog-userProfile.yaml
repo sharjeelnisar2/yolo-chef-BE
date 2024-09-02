@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-recipe-table-0.0.1
+      id: schema-user_profile-table-0.0.1
       author: vendor_team
       changes:
         - createTable:
-            tableName: recipe
+            tableName: user_profile
             columns:
               - column:
                   name: id
@@ -14,23 +14,18 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(128)
+                  name: first_name
+                  type: varchar(16)
                   constraints:
                     nullable: false
               - column:
-                  name: description
-                  type: Text
+                  name: last_name
+                  type: varchar(16)
                   constraints:
                     nullable: false
               - column:
-                  name: price
-                  type: bigint UNSIGNED
-                  constraints:
-                    nullable: false
-              - column:
-                  name: serving_size
-                  type: int
+                  name: contact_number
+                  type: varchar(13)
                   constraints:
                     nullable: false
               - column:
@@ -44,8 +39,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: code
-                  type: varchar(8)
+                  name: address_id
+                  type: int
                   constraints:
                     nullable: false
               - column:
@@ -54,46 +49,25 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: idea_id
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: recipe_status_id
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
                   name: currency_id
                   type: int
                   constraints:
                     nullable: false
-        - addUniqueConstraint:
-            tableName: recipe
-            columnNames: code
-            constraintName: recipe_reference_UNIQUE
         - addForeignKeyConstraint:
-            baseTableName: recipe
-            baseColumnNames: idea_id
-            referencedTableName: idea
+            baseTableName: user_profile
+            baseColumnNames: address_id
+            referencedTableName: address
             referencedColumnNames: id
-            constraintName: idea_id_fk
+            constraintName: address_id_fk
         - addForeignKeyConstraint:
-            baseTableName: recipe
-            baseColumnNames: recipe_status_id
-            referencedTableName: recipe_status
-            referencedColumnNames: id
-            constraintName: recipe_status_id_fk
-        - addForeignKeyConstraint:
-            baseTableName: recipe
+            baseTableName: user_profile
             baseColumnNames: user_id
             referencedTableName: user
             referencedColumnNames: id
-            constraintName: fk_user_id
+            constraintName: user_id_fk
         - addForeignKeyConstraint:
-            baseTableName: recipe
+            baseTableName: user_profile
             baseColumnNames: currency_id
             referencedTableName: currency
             referencedColumnNames: id
-            constraintName: currency_id_fkk
-
+            constraintName: currency_id_fk

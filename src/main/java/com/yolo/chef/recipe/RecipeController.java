@@ -56,7 +56,7 @@ public class RecipeController {
         }
     }
    @PreAuthorize("hasAnyAuthority('ROLE_UPDATE_RECIPE')")
-    @PatchMapping("/recipes/{recipeId}")
+    @PostMapping("/recipes/{recipeId}")
     public ResponseEntity<?> updateRecipe(@ModelAttribute RecipeRequest recipeRequest,
                                           @PathVariable("recipeId") Integer recipeId) {
 
