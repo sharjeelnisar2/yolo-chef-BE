@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/Yolo_Chef
-    username: root
-    password: 123456
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     open-in-view: false
 
   liquibase:
@@ -14,3 +14,8 @@ spring:
     drop-first: false
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     default-schema: public
+jwt:
+  auth:
+    converter:
+      principle-attribute: preferred_username
+      resource-id: yolo-chef

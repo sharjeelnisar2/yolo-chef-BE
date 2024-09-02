@@ -158,13 +158,16 @@ public Map<String, Object> getOrdersByChefId(
     // Mock method for getting recipe ID from code
     private Integer getRecipeIdFromCode(String recipeCode) {
        int id= recipeService.getRecipeIdFromRecipeCode(recipeCode);
-       if(id==-1) {
+        System.out.println("recipe id  id from code is "+id);
+
+        if(id==-1) {
            throw new RuntimeException("code is wrong");
        }
        return id;
     }
     private Integer getChefIdFromCode(String recipeCode) {
         int id= recipeService.getUserIdFromRecipeCode(recipeCode);
+        System.out.println("chef id from code is "+id);
         if(id==-1) {
             throw new RuntimeException("code is wrong");
         }
